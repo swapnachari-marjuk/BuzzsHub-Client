@@ -1,17 +1,83 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { Link, useNavigate } from "react-router";
+import useAuth from "../../hooks/useAuth";
+import axios from "axios";
+import useAxios from "../../hooks/useAxios";
+import Swal from "sweetalert2";
 
 const Register = () => {
+  const [showPass, setShowPass] = useState(false);
+  const [registerLoading, setRegisterLoading] = useState(false);
+  const { createUser, updateUser } = useAuth();
+  const navigate = useNavigate();
+  const instanceAxios = useAxios();
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    // formState: { errors },
   } = useForm();
 
-  const handleRegister = (data) => {
-    console.log(data);
+  const handleRegister = async (data) => {
+    setRegisterLoading(true);
+    // console.log(data);
+    const displayName = data.userName;
+    const email = data.userEmail;
+    const password = data.userPassword;
+    const pPhoto = data.userPhoto[0];
+
+    try {
+      const result = await createUser(email, password);
+
+      const formData = new FormData();
+
+      if (pPhoto) {
+        formData.append("image", pPhoto);
+      }
+
+      const image_api_link = `https://api.imgbb.com/1/upload?key=${
+        import.meta.env.VITE_imgBB_apiKey
+      }`;
+
+      const userInfo = {
+        email,
+        displayName,
+        photoURL: "https://i.ibb.co.com/rRBg9hyR/pp.jpg",
+        role: "user",
+        createdAt: new Date(),
+      };
+
+      if (formData.has("image")) {
+        await axios.post(image_api_link, formData).then((res) => {
+          const photoURL = res.data.data.display_url;
+          // console.log(photoURL);
+          userInfo.photoURL = photoURL;
+        });
+      } else {
+        console.log("user doesn't give an url");
+      }
+
+      // updating user in firebase
+      updateUser(displayName, userInfo.photoURL)
+        .then(() => console.log("user also updated"))
+        .catch((err) => console.log(err));
+
+      // uploading user at mongodb
+      instanceAxios
+        .post("/users", userInfo)
+        .then(() => console.log("user info uploaded in database."))
+        .catch((err) => console.log(err));
+
+      setRegisterLoading(false);
+      navigate("/");
+      // console.log(result.user);
+    } catch (error) {
+      console.log(error);
+      setRegisterLoading(false);
+    }
   };
+
   return (
     <div className="card w-full max-w-sm shrink-0 ">
       <form className="card-body" onSubmit={handleSubmit(handleRegister)}>
@@ -49,17 +115,32 @@ const Register = () => {
           </div>
 
           {/* user password */}
-          <div>
+          <div className="relative">
             <label className="label">Password</label>
             <input
               {...register("userPassword")}
-              type="password"
+              type={showPass ? `text` : `password`}
               className="input"
               placeholder="Password"
             />
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setShowPass(!showPass);
+              }}
+              className="absolute right-6 top-8"
+            >
+              {showPass ? <FaEyeSlash /> : <FaEye />}
+            </button>
           </div>
 
-          <button className="btn btn-primary mt-4">Register</button>
+          <button className="btn btn-primary mt-4">
+            {registerLoading ? (
+              <span className="loading loading-infinity"></span>
+            ) : (
+              "Register"
+            )}
+          </button>
         </fieldset>
         <div>
           <span>
