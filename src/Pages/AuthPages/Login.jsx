@@ -4,7 +4,7 @@ import { Link } from "react-router";
 const Login = () => {
   return (
     <div className="card w-full max-w-sm shrink-0">
-      <div className="card-body">
+      <form className="card-body">
         <fieldset className="fieldset">
           <label className="label">Email</label>
           <input type="email" className="input" placeholder="Email" />
@@ -24,7 +24,7 @@ const Login = () => {
             Register
           </Link>
         </span>
-      </div>
+      </form>
     </div>
   );
 };

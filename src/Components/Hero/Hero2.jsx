@@ -18,7 +18,7 @@ const Hero2 = () => {
             virtual meetups, and bring your ideas, passions, and creativity to
             life—powered by real connections.
           </p>
-          <button className="btn btn-primary hover:font-bold hover:underline">
+          <button className="btn btn-primary">
             Discover Online Clubs &rarr;
           </button>
         </div>

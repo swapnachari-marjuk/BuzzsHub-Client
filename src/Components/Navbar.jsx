@@ -6,10 +6,14 @@ const Navbar = () => {
   const links = (
     <>
       <li>
-        <NavLink to={"/allClubs"} className="nav-link" >Clubs</NavLink>
+        <NavLink to={"/allClubs"} className="nav-link">
+          Clubs
+        </NavLink>
       </li>
       <li>
-        <NavLink to={"/allEvents"} className="nav-link">Events</NavLink>
+        <NavLink to={"/allEvents"} className="nav-link">
+          Events
+        </NavLink>
       </li>
     </>
   );
@@ -47,7 +51,15 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
-        <Link to={"/register"}>Register</Link>
+        <Link
+          className="btn btn-primary"
+          to={"/register"}
+        >
+          Register
+        </Link>
+        <Link className="btn btn-ghost bg-transparent border-none hover:underline text-pink-500" to={"/login"}>
+          Login
+        </Link>
       </div>
     </div>
   );

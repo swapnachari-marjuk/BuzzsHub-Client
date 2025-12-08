@@ -21,7 +21,7 @@ const AuthLayout = () => {
     document.addEventListener("keydown", preventEsc);
   }, []);
   return (
-    <div className="relative bg-pink-100 min-h-screen">
+    <div className="relative min-h-screen">
       {/* You can open the modal using document.getElementById('ID').showModal() method
       <button
         className="btn"

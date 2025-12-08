@@ -19,7 +19,7 @@ const Hero1 = () => {
             feel just like home. Build memories that go far beyond a group
             photo.
           </p>
-          <button className="btn btn-primary hover:font-bold hover:underline">
+          <button className="btn btn-primary">
             Join a Club &rarr;
           </button>
         </div>
