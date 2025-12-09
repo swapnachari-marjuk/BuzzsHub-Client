@@ -5,10 +5,13 @@ import useAuth from "../hooks/useAuth";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import useRole from "../hooks/useRole";
 
 const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
-  const { user, logOutUser } = useAuth();
+  const { user, logOutUser, loading } = useAuth();
+  const { userRole, isLoading } = useRole();
+  console.log(userRole);
 
   const handleLogOut = () => {
     Swal.fire({
@@ -37,8 +40,14 @@ const Navbar = () => {
           Events
         </NavLink>
       </li>
+      <li>
+        <NavLink to={"/createClub"} className="nav-link">
+          Create club
+        </NavLink>
+      </li>
     </>
   );
+
   return (
     <div className="navbar drop-shadow-xs relative z-50">
       <div className="navbar-start">
@@ -69,12 +78,17 @@ const Navbar = () => {
         </div>
         <Logo />
       </div>
+
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
+
       <div className="navbar-end">
-        {user ? (
+        {loading ? (
+          <span className="loading loading-ring loading-xl"></span>
+        ) : user ? (
           <div>
+            {/* user info dropdown */}
             <div className="dropdown dropdown-end">
               <button
                 onClick={() => setShowDropdown(!showDropdown)}

@@ -3,9 +3,11 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import { toast } from "react-toastify";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
   const [fbError, setFbError] = useState(false);
+  const [showPass, setShowPass] = useState(false);
   const navigate = useNavigate();
   const {
     register,
@@ -17,7 +19,7 @@ const Login = () => {
   const handleLogin = (data) => {
     console.log(data);
     loginUser(data.email, data.password)
-    .then((res) => {
+      .then((res) => {
         setLoading(true);
         console.log(res);
         setLoading(false);
@@ -59,17 +61,27 @@ const Login = () => {
             )}
           </div>
           {/* password */}
-          <div>
+          <div className="relative">
             <label className="label">Password</label>
             <input
               {...register("password", {
                 required: true,
                 pattern: /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/,
               })}
-              type="password"
+              type={showPass ? `text` : `password`}
               className="input"
               placeholder="Password"
             />
+
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setShowPass(!showPass);
+              }}
+              className="absolute right-6 top-8"
+            >
+              {showPass ? <FaEyeSlash /> : <FaEye />}
+            </button>
 
             {errors.password?.type === "required" && (
               <p className="bg-red-200 py-1 px-3 my-2 w-fit rounded-2xl text-red-500">
