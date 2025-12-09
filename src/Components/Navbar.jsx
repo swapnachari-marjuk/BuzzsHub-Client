@@ -20,9 +20,7 @@ const Navbar = () => {
       confirmButtonText: "LogOut!",
     }).then((result) => {
       if (result.isConfirmed) {
-        logOutUser().then(() =>
-          toast.warn("User logged out successfully.")
-        );
+        logOutUser().then(() => toast.warn("User logged out successfully."));
       }
     });
   };
@@ -76,41 +74,49 @@ const Navbar = () => {
       </div>
       <div className="navbar-end">
         {user ? (
-          <div className="flex justify-center items-center">
-            <div>
-              <div className="dropdown dropdown-end">
-                <button
-                  onClick={() => setShowDropdown(!showDropdown)}
-                  role="button"
-                  className="m-1"
-                >
-                  <div className="flex justify-center items-center gap-1">
-                    <img
-                      className="w-8 rounded-full "
-                      src={user.photoURL}
-                      alt=""
-                    />
-                  </div>
-                </button>
-                {showDropdown && (
-                  <ul className="dropdown-content menu lg:menu-md menu-sm bg-pink-100 rounded-box z-100 w-52 p-2 mt-5 shadow-sm">
-                    <li className="nav-link">
-                      <p>{user.displayName}</p>
-                    </li>
-                    <li>
-                      <p className="nav-link">{user.email}</p>
-                    </li>
-                    <li>
-                      <button
-                        onClick={handleLogOut}
-                        className="btn btn-primary lg:btn-md btn-sm"
-                      >
-                        LogOut
-                      </button>
-                    </li>
-                  </ul>
-                )}
-              </div>
+          <div>
+            <div className="dropdown dropdown-end">
+              <button
+                onClick={() => setShowDropdown(!showDropdown)}
+                role="button"
+                className="m-1"
+              >
+                <div className="flex justify-center items-center gap-1">
+                  <img
+                    className="w-8 rounded-full "
+                    src={user.photoURL}
+                    alt="user avatar"
+                    title={user.displayName}
+                  />
+                </div>
+              </button>
+              {showDropdown && (
+                <ul className="dropdown-content menu items-center lg:menu-md menu-sm bg-pink-100 rounded-box z-100 w-52 p-2 mt-5 shadow-sm">
+                  <li>
+                    <div className="w-20">
+                      <img
+                        className="w-full rounded-full"
+                        src={user.photoURL}
+                        alt="user avatar"
+                      />
+                    </div>
+                  </li>
+                  <li className="nav-link">
+                    <p>{user.displayName}</p>
+                  </li>
+                  <li>
+                    <p className="nav-link">{user.email}</p>
+                  </li>
+                  <li>
+                    <button
+                      onClick={handleLogOut}
+                      className="btn btn-primary lg:btn-md btn-sm"
+                    >
+                      LogOut
+                    </button>
+                  </li>
+                </ul>
+              )}
             </div>
           </div>
         ) : (

@@ -10,22 +10,22 @@ import { toast } from "react-toastify";
 
 const Register = () => {
   const [showPass, setShowPass] = useState(false);
-  // const [registerLoading, setRegisterLoading] = useState(false);
+  const [fbError, setFbError] = useState(false);
   const { createUser, updateUser, loading, setLoading } = useAuth();
   const navigate = useNavigate();
   const instanceAxios = useAxios();
   const {
     register,
     handleSubmit,
-    // formState: { errors },
+    formState: { errors },
   } = useForm();
 
   const handleRegister = async (data) => {
     setLoading(true);
     // console.log(data);
     const displayName = data.userName;
-    const email = data.userEmail;
-    const password = data.userPassword;
+    const email = data.email;
+    const password = data.password;
     const pPhoto = data.userPhoto[0];
 
     try {
@@ -71,9 +71,12 @@ const Register = () => {
         .catch((err) => console.log(err));
 
       setLoading(false);
-      navigate("/").then(toast.success("User logged in successfully."));
+      navigate("/").then(toast.success("User created successfully."));
     } catch (error) {
       console.log(error);
+      setFbError(
+        "Could not log in. Please check your email and password and try again"
+      );
       setLoading(false);
     }
   };
@@ -86,11 +89,17 @@ const Register = () => {
           <div>
             <label className="label">Full Name</label>
             <input
-              {...register("userName")}
+              {...register("userName", { required: true })}
               type="text"
               className="input "
               placeholder="Your full name"
             />
+
+            {errors.userName?.type === "required" && (
+              <p className="bg-red-200 py-1 px-3 my-2 w-fit rounded-2xl text-red-500">
+                ⚠ Name is required
+              </p>
+            )}
           </div>
 
           {/* user photo */}
@@ -107,18 +116,36 @@ const Register = () => {
           <div>
             <label className="label">Email</label>
             <input
-              {...register("userEmail")}
+              {...register("email", {
+                required: true,
+                pattern: /^[\w@.]{1,}?@[\w.]*\.[\w.]*$/,
+              })}
               type="email"
               className="input"
               placeholder="Your email"
             />
+
+            {errors.email?.type === "required" && (
+              <p className="bg-red-200 py-1 px-3 my-2 w-fit rounded-2xl text-red-500">
+                ⚠ Required an email
+              </p>
+            )}
+
+            {errors.email?.type === "pattern" && (
+              <p className="bg-red-200 py-1 px-3 my-2 w-fit rounded-2xl text-red-500">
+                ⚠ Required a valid email
+              </p>
+            )}
           </div>
 
           {/* user password */}
           <div className="relative">
             <label className="label">Password</label>
             <input
-              {...register("userPassword")}
+              {...register("password", {
+                pattern: /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/,
+                required: true,
+              })}
               type={showPass ? `text` : `password`}
               className="input"
               placeholder="Password"
@@ -132,7 +159,25 @@ const Register = () => {
             >
               {showPass ? <FaEyeSlash /> : <FaEye />}
             </button>
+
+            {errors.password?.type === "required" && (
+              <p className="bg-red-200 py-1 px-3 my-2 w-fit rounded-2xl text-red-500">
+                ⚠ Required a valid password
+              </p>
+            )}
+
+            {errors.password?.type === "pattern" && (
+              <p className="bg-red-200 py-1 px-3 my-2 w-fit rounded-2xl text-red-500">
+                ⚠ Enter a valid password.
+              </p>
+            )}
           </div>
+
+          {fbError && (
+            <p className="bg-red-200 py-1 px-3 my-2 w-fit rounded-2xl text-red-500 text-center">
+              {fbError}
+            </p>
+          )}
 
           <button className="btn btn-primary mt-4">
             {loading ? (
@@ -143,7 +188,7 @@ const Register = () => {
           </button>
         </fieldset>
         <div>
-          <span>
+          <p>
             Have an account?{" "}
             <Link
               className="underline decoration-pink-400 text-pink-400 hover:decoration-pink-500 hover:text-pink-500"
@@ -151,7 +196,7 @@ const Register = () => {
             >
               Login
             </Link>
-          </span>
+          </p>
         </div>
       </form>
     </div>
