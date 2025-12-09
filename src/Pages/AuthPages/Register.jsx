@@ -6,11 +6,12 @@ import useAuth from "../../hooks/useAuth";
 import axios from "axios";
 import useAxios from "../../hooks/useAxios";
 import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [showPass, setShowPass] = useState(false);
-  const [registerLoading, setRegisterLoading] = useState(false);
-  const { createUser, updateUser } = useAuth();
+  // const [registerLoading, setRegisterLoading] = useState(false);
+  const { createUser, updateUser, loading, setLoading } = useAuth();
   const navigate = useNavigate();
   const instanceAxios = useAxios();
   const {
@@ -20,7 +21,7 @@ const Register = () => {
   } = useForm();
 
   const handleRegister = async (data) => {
-    setRegisterLoading(true);
+    setLoading(true);
     // console.log(data);
     const displayName = data.userName;
     const email = data.userEmail;
@@ -66,15 +67,14 @@ const Register = () => {
       // uploading user at mongodb
       instanceAxios
         .post("/users", userInfo)
-        .then(() => console.log("user info uploaded in database."))
+        .then((res) => console.log(res, "user info uploaded in database."))
         .catch((err) => console.log(err));
 
-      setRegisterLoading(false);
-      navigate("/");
-      // console.log(result.user);
+      setLoading(false);
+      navigate("/").then(toast.success("User logged in successfully."));
     } catch (error) {
       console.log(error);
-      setRegisterLoading(false);
+      setLoading(false);
     }
   };
 
@@ -135,7 +135,7 @@ const Register = () => {
           </div>
 
           <button className="btn btn-primary mt-4">
-            {registerLoading ? (
+            {loading ? (
               <span className="loading loading-infinity"></span>
             ) : (
               "Register"

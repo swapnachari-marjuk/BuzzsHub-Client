@@ -22,15 +22,8 @@ const AuthLayout = () => {
   }, []);
   return (
     <div className="relative min-h-screen">
-      {/* You can open the modal using document.getElementById('ID').showModal() method
-      <button
-        className="btn"
-        onClick={() => document.getElementById("my_modal_4").showModal()}
-      >
-        open modal
-      </button> */}
       <dialog ref={modalRef} className="modal">
-        <div className="bg-pink-100 min-w-[400px] rounded-2xl px-5 py-8">
+        <div className="bg-pink-100 min-w-[350px] rounded-2xl px-5 py-8">
           <Logo />
           <div className="h-0.5 bg-pink-200"></div>
           <Outlet />

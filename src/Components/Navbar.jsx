@@ -1,8 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import Logo from "./Logo";
 import { Link, NavLink } from "react-router";
+import useAuth from "../hooks/useAuth";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import Swal from "sweetalert2";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
+  const [showDropdown, setShowDropdown] = useState(false);
+  const { user, logOutUser } = useAuth();
+
+  const handleLogOut = () => {
+    Swal.fire({
+      title: "Want to logout?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#D0320e",
+      cancelButtonColor: "#f86983",
+      confirmButtonText: "LogOut!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        logOutUser().then(() =>
+          toast.warn("User logged out successfully.")
+        );
+      }
+    });
+  };
+
   const links = (
     <>
       <li>
@@ -18,7 +42,7 @@ const Navbar = () => {
     </>
   );
   return (
-    <div className="navbar drop-shadow-xs">
+    <div className="navbar drop-shadow-xs relative z-50">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -51,15 +75,57 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
-        <Link
-          className="btn btn-primary"
-          to={"/register"}
-        >
-          Register
-        </Link>
-        <Link className="btn btn-ghost bg-transparent border-none hover:underline text-pink-500" to={"/login"}>
-          Login
-        </Link>
+        {user ? (
+          <div className="flex justify-center items-center">
+            <div>
+              <div className="dropdown dropdown-end">
+                <button
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  role="button"
+                  className="m-1"
+                >
+                  <div className="flex justify-center items-center gap-1">
+                    <img
+                      className="w-8 rounded-full "
+                      src={user.photoURL}
+                      alt=""
+                    />
+                  </div>
+                </button>
+                {showDropdown && (
+                  <ul className="dropdown-content menu lg:menu-md menu-sm bg-pink-100 rounded-box z-100 w-52 p-2 mt-5 shadow-sm">
+                    <li className="nav-link">
+                      <p>{user.displayName}</p>
+                    </li>
+                    <li>
+                      <p className="nav-link">{user.email}</p>
+                    </li>
+                    <li>
+                      <button
+                        onClick={handleLogOut}
+                        className="btn btn-primary lg:btn-md btn-sm"
+                      >
+                        LogOut
+                      </button>
+                    </li>
+                  </ul>
+                )}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <Link className="btn btn-primary lg:btn-md btn-sm" to={"/register"}>
+              Register
+            </Link>
+            <Link
+              className="btn btn-ghost lg:btn-md btn-sm bg-transparent border-none hover:underline text-pink-500"
+              to={"/login"}
+            >
+              Login
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
