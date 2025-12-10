@@ -8,6 +8,7 @@ import Register from "../Pages/AuthPages/Register";
 import Login from "../Pages/AuthPages/Login";
 import CreateClub from "../Pages/CreateClub/CreateClub";
 import BecomeManager from "../Pages/BecomeManager/BecomeManager";
+import PrivetRout from "./PrivetRout";
 
 const router = createBrowserRouter([
   {
@@ -28,11 +29,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/createClub",
-        Component: CreateClub,
+        element: (
+          <PrivetRout>
+            <CreateClub />
+          </PrivetRout>
+        ),
       },
       {
         path: "/becomeManager",
-        Component: BecomeManager,
+        element: (
+          <PrivetRout>
+            <BecomeManager />
+          </PrivetRout>
+        ),
       },
     ],
   },
