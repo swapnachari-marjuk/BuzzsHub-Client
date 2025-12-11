@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import GoogleLogin from "./GoogleLogin";
 
 const Login = () => {
   const [fbError, setFbError] = useState(false);
@@ -114,16 +115,19 @@ const Login = () => {
             )}
           </button>
         </fieldset>
-        <span>
-          Don't have an account?{" "}
-          <Link
-            className="underline decoration-pink-400 text-pink-400 hover:decoration-pink-500 hover:text-pink-500"
-            to={"/register"}
-          >
-            Register
-          </Link>
-        </span>
       </form>
+      <div className="flex justify-center items-center -mt-4 mb-1">
+        <GoogleLogin />
+      </div>
+      <div>
+        Don't have an account?{" "}
+        <Link
+          className="underline decoration-pink-400 text-pink-400 hover:decoration-pink-500 hover:text-pink-500"
+          to={"/register"}
+        >
+          Register
+        </Link>
+      </div>
     </div>
   );
 };

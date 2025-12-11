@@ -9,6 +9,10 @@ import Login from "../Pages/AuthPages/Login";
 import CreateClub from "../Pages/CreateClub/CreateClub";
 import BecomeManager from "../Pages/BecomeManager/BecomeManager";
 import PrivetRout from "./PrivetRout";
+import DashLayout from "../Layouts/DashLayout/DashLayout";
+import DashboardHome from "../Pages/Dashboard/DashboardHome";
+import ManageUsers from "../Pages/Dashboard/ManageUsers";
+import ManageClubs from "../Pages/Dashboard/ManageClubs";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +61,25 @@ const router = createBrowserRouter([
       {
         path: "/login",
         Component: Login,
+      },
+    ],
+  },
+
+  {
+    path: "/dashboard",
+    Component: DashLayout,
+    children: [
+      {
+        index: true,
+        Component: DashboardHome,
+      },
+      {
+        path: "manageUsers",
+        Component: ManageUsers,
+      },
+      {
+        path: "manageClub",
+        Component: ManageClubs,
       },
     ],
   },

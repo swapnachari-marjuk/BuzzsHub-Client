@@ -7,6 +7,7 @@ import axios from "axios";
 import useAxios from "../../hooks/useAxios";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
+import GoogleLogin from "./GoogleLogin";
 
 const Register = () => {
   const [showPass, setShowPass] = useState(false);
@@ -186,18 +187,21 @@ const Register = () => {
             )}
           </button>
         </fieldset>
-        <div>
-          <p>
-            Have an account?{" "}
-            <Link
-              className="underline decoration-pink-400 text-pink-400 hover:decoration-pink-500 hover:text-pink-500"
-              to={"/login"}
-            >
-              Login
-            </Link>
-          </p>
-        </div>
       </form>
+      <div className="flex justify-center items-center -mt-4 mb-1">
+        <GoogleLogin />
+      </div>
+      <div>
+        <p>
+          Have an account?{" "}
+          <Link
+            className="underline decoration-pink-400 text-pink-400 hover:decoration-pink-500 hover:text-pink-500"
+            to={"/login"}
+          >
+            Login
+          </Link>
+        </p>
+      </div>
     </div>
   );
 };

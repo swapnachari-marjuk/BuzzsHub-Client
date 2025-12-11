@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Logo from "./Logo";
 import { Link, NavLink } from "react-router";
 import useAuth from "../hooks/useAuth";
@@ -13,6 +13,7 @@ const Navbar = () => {
   const { user, logOutUser, loading } = useAuth();
   const { userRole } = useRole();
   console.log(userRole);
+  console.log(user);
 
   const handleLogOut = () => {
     Swal.fire({
@@ -90,47 +91,46 @@ const Navbar = () => {
         {loading ? (
           <span className="loading loading-ring loading-xl"></span>
         ) : user ? (
-            <div className="dropdown dropdown-end ">
+          <div className="dropdown dropdown-end ">
             {/* user info dropdown */}
-              <div tabIndex={0} role="button" className="m-1">
-                <div className="flex justify-center items-center gap-1">
+            <div tabIndex={0} role="button" className="m-1">
+              <div className="flex justify-center items-center gap-1">
+                <img
+                  className="w-8 rounded-full "
+                  src={user.photoURL}
+                  alt="user avatar"
+                  title={user.displayName}
+                />
+              </div>
+            </div>
+
+            <ul
+              tabIndex="-1"
+              className="dropdown-content menu bg-pink-100 rounded-box z-1 w-52 p-2 shadow-sm"
+            >
+              <li>
+                <div className="flex justify-center items-center">
                   <img
-                    className="w-8 rounded-full "
+                    className="w-10 rounded-full"
                     src={user.photoURL}
                     alt="user avatar"
-                    title={user.displayName}
                   />
                 </div>
-              </div>
-
-              <ul
-                tabIndex="-1"
-                className="dropdown-content menu bg-pink-100 rounded-box z-1 w-52 p-2 shadow-sm"
-              >
-                <li>
-                  <div className="flex justify-center items-center">
-                    <img
-                      className="w-10 rounded-full"
-                      src={user.photoURL}
-                      alt="user avatar"
-                    />
-                  </div>
-                </li>
-                <li className="nav-link">
-                  <Link>
-                    {" "}
-                    <HiMiniWrenchScrewdriver />
-                    Dashboard
-                  </Link>
-                </li>
-                <li>
-                  <button onClick={handleLogOut} className="nav-link">
-                    <RiLogoutBoxRLine />
-                    LogOut
-                  </button>
-                </li>
-              </ul>
-            </div>
+              </li>
+              <li className="nav-link">
+                <Link to="/dashboard">
+                  <HiMiniWrenchScrewdriver />
+                  Dashboard
+                </Link>
+              </li>
+              <li>
+                <button onClick={handleLogOut} className="nav-link">
+                  <RiLogoutBoxRLine />
+                  LogOut
+                </button>
+              </li>
+            </ul>
+          </div>
         ) : (
           <div>
             <Link className="btn btn-primary lg:btn-md btn-sm" to={"/register"}>
