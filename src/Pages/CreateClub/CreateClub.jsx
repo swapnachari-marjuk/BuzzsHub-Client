@@ -1,20 +1,67 @@
-import React from "react";
-import { Navigate } from "react-router";
+import React, { useState } from "react";
+import { Navigate, useNavigate } from "react-router";
 import useRole from "../../hooks/useRole";
 import ComponentLoading from "../../Components/ComponentLoading";
 import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
+import axios from "axios";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { toast } from "react-toastify";
 
 const CreateClub = () => {
+  const [clubLoading, setClubLoading] = useState(false);
+  const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
-  const { userRole, isLoading } = useRole();
+  const { userRole, isLoading: userRoleLoading } = useRole();
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
-  const handleCreateClub = (data) => {
-    console.log(data);
+  const handleCreateClub = async (data) => {
+    try {
+      setClubLoading(true);
+
+      const bannerImage = data.clubBanner?.[0];
+      let bannerURL = "https://i.ibb.co.com/k236cqNw/Adobe-Express-file.jpg";
+
+      if (bannerImage) {
+        const formData = new FormData();
+        formData.append("image", bannerImage);
+
+        const image_api_link = `https://api.imgbb.com/1/upload?key=${
+          import.meta.env.VITE_imgBB_apiKey
+        }`;
+
+        const photoRes = await axios.post(image_api_link, formData);
+        bannerURL = photoRes.data.data.display_url;
+        console.log("image uploaded successfully with");
+      }
+
+      const clubsData = {
+        clubName: data.clubName,
+        description: data.description,
+        category: data.category,
+        location: data.location,
+        bannerURL,
+        membershipFee: data.membershipFee,
+        managerEmail: data.managerEmail,
+        status: "pending",
+      };
+
+      const clubRes = await axiosSecure.post("/clubs", clubsData);
+      console.log(clubRes);
+      if (clubRes.data.insertedId) {
+        toast.success("Club creation request has sent successfully.");
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong while creating the club.");
+    } finally {
+      setClubLoading(false);
+    }
   };
 
-  if (isLoading) {
+  if (userRoleLoading) {
     return (
       <div className="flex justify-center items-center">
         <ComponentLoading />
@@ -22,16 +69,14 @@ const CreateClub = () => {
     );
   }
 
-  if (userRole?.role !== "club_manager") {
-    return <Navigate to="/becomeManager" />;
-  }
+
 
   if (userRole?.role === "club_manager") {
     return (
       <div className="flex justify-center items-center my-5">
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
           <h3 className="font-bold text-center  mt-4 -mb-3 mx-3 text-pink-500">
-            Create a club.
+            Create a club
           </h3>
           <form onSubmit={handleSubmit(handleCreateClub)} className="card-body">
             <fieldset className="fieldset space-y-3">
@@ -78,6 +123,17 @@ const CreateClub = () => {
                 />
               </div>
 
+              {/* location */}
+              <div>
+                <label className="label">Held on</label>
+                <input
+                  {...register("date", { required: true, min: new Date() })}
+                  type="date"
+                  className="input"
+                  placeholder="e.g., Dhaka, Chattogram, Sylhet"
+                />
+              </div>
+
               {/* banner image */}
               <div>
                 <label className="label">Banner Image URL</label>
@@ -113,7 +169,13 @@ const CreateClub = () => {
                 />
               </div>
 
-              <button className="btn btn-primary mt-4">Create Club</button>
+              <button className="btn btn-primary mt-4">
+                {clubLoading ? (
+                  <span className="loading loading-infinity"></span>
+                ) : (
+                  "Create Club"
+                )}
+              </button>
             </fieldset>
           </form>
         </div>

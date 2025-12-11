@@ -22,62 +22,61 @@ const Register = () => {
 
   const handleRegister = async (data) => {
     setLoading(true);
-    // console.log(data);
     const displayName = data.userName;
     const email = data.email;
     const password = data.password;
-    const pPhoto = data.userPhoto[0];
+    const pPhoto = data.userPhoto?.[0];
 
     try {
       const result = await createUser(email, password);
 
-      const formData = new FormData();
-
-      if (pPhoto) {
-        formData.append("image", pPhoto);
-      }
+      let photoURL = "https://img.icons8.com/ios/50/user-male-circle--v1.png";
 
       const image_api_link = `https://api.imgbb.com/1/upload?key=${
         import.meta.env.VITE_imgBB_apiKey
       }`;
 
-      const userInfo = {
-        email,
-        displayName,
-        photoURL: "https://i.ibb.co.com/rRBg9hyR/pp.jpg",
-        role: "user",
-        createdAt: new Date(),
-      };
+      if (pPhoto) {
+        const formData = new FormData();
+        formData.append("image", pPhoto);
 
-      if (formData.has("image")) {
-        await axios.post(image_api_link, formData).then((res) => {
-          const photoURL = res.data.data.display_url;
-          // console.log(photoURL);
-          userInfo.photoURL = photoURL;
-        });
+        const imgRes = await axios.post(image_api_link, formData);
+        photoURL = imgRes.data.data.display_url;
       } else {
         console.log("user doesn't give an url");
       }
 
+      const userInfo = {
+        email,
+        displayName,
+        photoURL,
+        role: "user",
+        createdAt: new Date(),
+      };
+
       // updating user in firebase
-      updateUser(displayName, userInfo.photoURL)
-        .then(() => console.log("user also updated"))
-        .catch((err) => console.log(err));
+      try {
+        const updateUserRes = await updateUser(displayName, userInfo.photoURL);
+        console.log("User Updated");
+      } catch (error) {
+        console.log(error);
+      }
 
       // uploading user at mongodb
-      instanceAxios
-        .post("/users", userInfo)
-        .then((res) => console.log(res, "user info uploaded in database."))
-        .catch((err) => console.log(err));
-
-      setLoading(false);
-      navigate("/").then(toast.success("User created successfully."));
+      try {
+        const userPostRes = await instanceAxios.post("/users", userInfo);
+      } catch (error) {
+        console.log(error);
+      }
     } catch (error) {
       console.log(error);
       setFbError(
         "Could not log in. Please check your email and password and try again"
       );
+    } finally {
       setLoading(false);
+      navigate("/");
+      toast.success("User created successfully.");
     }
   };
 

@@ -6,11 +6,12 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import useRole from "../hooks/useRole";
+import { HiMiniWrenchScrewdriver, HiWrenchScrewdriver } from "react-icons/hi2";
+import { RiLogoutBoxRLine } from "react-icons/ri";
 
 const Navbar = () => {
-  const [showDropdown, setShowDropdown] = useState(false);
   const { user, logOutUser, loading } = useAuth();
-  const { userRole, isLoading } = useRole();
+  const { userRole } = useRole();
   console.log(userRole);
 
   const handleLogOut = () => {
@@ -40,16 +41,18 @@ const Navbar = () => {
           Events
         </NavLink>
       </li>
-      <li>
-        <NavLink to={"/createClub"} className="nav-link">
-          Create club
-        </NavLink>
-      </li>
+      {userRole?.role === "user" && (
+        <li>
+          <NavLink to={"/becomeManager"} className="nav-link">
+            Become Manager
+          </NavLink>
+        </li>
+      )}
     </>
   );
 
   return (
-    <div className="navbar drop-shadow-xs relative z-50">
+    <div className="navbar drop-shadow-xs  relative z-50">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -87,14 +90,9 @@ const Navbar = () => {
         {loading ? (
           <span className="loading loading-ring loading-xl"></span>
         ) : user ? (
-          <div>
+            <div className="dropdown dropdown-end ">
             {/* user info dropdown */}
-            <div className="dropdown dropdown-end">
-              <button
-                onClick={() => setShowDropdown(!showDropdown)}
-                role="button"
-                className="m-1"
-              >
+              <div tabIndex={0} role="button" className="m-1">
                 <div className="flex justify-center items-center gap-1">
                   <img
                     className="w-8 rounded-full "
@@ -103,36 +101,36 @@ const Navbar = () => {
                     title={user.displayName}
                   />
                 </div>
-              </button>
-              {showDropdown && (
-                <ul className="dropdown-content menu items-center lg:menu-md menu-sm bg-pink-100 rounded-box z-100 w-52 p-2 mt-5 shadow-sm">
-                  <li>
-                    <div className="w-20">
-                      <img
-                        className="w-full rounded-full"
-                        src={user.photoURL}
-                        alt="user avatar"
-                      />
-                    </div>
-                  </li>
-                  <li className="nav-link">
-                    <p>{user.displayName}</p>
-                  </li>
-                  <li>
-                    <p className="nav-link">{user.email}</p>
-                  </li>
-                  <li>
-                    <button
-                      onClick={handleLogOut}
-                      className="btn btn-primary lg:btn-md btn-sm"
-                    >
-                      LogOut
-                    </button>
-                  </li>
-                </ul>
-              )}
+              </div>
+
+              <ul
+                tabIndex="-1"
+                className="dropdown-content menu bg-pink-100 rounded-box z-1 w-52 p-2 shadow-sm"
+              >
+                <li>
+                  <div className="flex justify-center items-center">
+                    <img
+                      className="w-10 rounded-full"
+                      src={user.photoURL}
+                      alt="user avatar"
+                    />
+                  </div>
+                </li>
+                <li className="nav-link">
+                  <Link>
+                    {" "}
+                    <HiMiniWrenchScrewdriver />
+                    Dashboard
+                  </Link>
+                </li>
+                <li>
+                  <button onClick={handleLogOut} className="nav-link">
+                    <RiLogoutBoxRLine />
+                    LogOut
+                  </button>
+                </li>
+              </ul>
             </div>
-          </div>
         ) : (
           <div>
             <Link className="btn btn-primary lg:btn-md btn-sm" to={"/register"}>
