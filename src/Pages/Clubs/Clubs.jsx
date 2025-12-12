@@ -13,7 +13,7 @@ const Clubs = () => {
       return res.data;
     },
   });
-  console.log(cardsData);
+  // console.log(cardsData);
 
   if (isLoading) {
     return <ComponentLoading />;

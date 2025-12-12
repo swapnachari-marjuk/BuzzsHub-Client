@@ -1,10 +1,18 @@
 import React from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
+import { MdDeleteForever } from "react-icons/md";
+import { FaRegCheckCircle } from "react-icons/fa";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const ManageClubs = () => {
   const axiosSecure = useAxiosSecure();
-  const { data: clubs, isLoading } = useQuery({
+  const {
+    data: clubs,
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["clubs"],
     queryFn: async () => {
       const res = await axiosSecure.get("/clubs");
@@ -12,7 +20,37 @@ const ManageClubs = () => {
     },
   });
 
-  console.log(clubs);
+  const handleApprove = (id) => {
+    axiosSecure.patch(`/clubs/${id}`, { status: "approved" }).then((res) => {
+      console.log(res);
+      if (res.data.modifiedCount) {
+        toast.success("Club Approved!");
+        refetch();
+      }
+    });
+  };
+
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/clubs/${id}`).then((res) => {
+          console.log(res);
+          if (res.data.deletedCount) {
+            toast.success("Club deleted!");
+            refetch();
+          }
+        });
+      }
+    });
+  };
 
   if (isLoading) {
     <div className="flex w-52 flex-col gap-4">
@@ -46,13 +84,33 @@ const ManageClubs = () => {
               <td>{club.managerEmail}</td>
               <td>{club.membershipFee}</td>
               <td>{club.status}</td>
-              <td>{}</td>
-              <td>{}</td>
-              <td>
-                <button></button>
-                <button></button>
-                <button></button>
-              </td>
+              {club.status === "pending" && (
+                <td>
+                  {" "}
+                  <button
+                    onClick={() => handleApprove(club._id)}
+                    className="btn btn-sm btn-ghost"
+                  >
+                    <FaRegCheckCircle />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(club._id)}
+                    className="btn btn-sm btn-ghost"
+                  >
+                    <MdDeleteForever />
+                  </button>
+                </td>
+              )}
+
+              {club.status === "approved" && (
+                <td>
+                  Approved
+                  <br />
+                  <span className="badge badge-primary badge-sm">
+                    No action needed
+                  </span>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

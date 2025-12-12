@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { motion } from "framer-motion";
 
 const ClubsCard = ({ data }) => {
-  console.log(data);
+  // console.log(data);
   const { bannerURL, clubName, description, category, membershipFee } = data;
 
   const truncatedDescription = description.substring(0, 80);
