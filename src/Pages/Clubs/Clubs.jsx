@@ -7,9 +7,9 @@ import ComponentLoading from "../../Components/ComponentLoading";
 const Clubs = () => {
   const axiosSecure = useAxiosSecure();
   const { data: cardsData, isLoading } = useQuery({
-    queryKey: ["cards"],
+    queryKey: ["cards", "status"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/clubs");
+      const res = await axiosSecure.get("/clubs?status=approved");
       return res.data;
     },
   });

@@ -11,8 +11,9 @@ import BecomeManager from "../Pages/BecomeManager/BecomeManager";
 import PrivetRout from "./PrivetRout";
 import DashLayout from "../Layouts/DashLayout/DashLayout";
 import DashboardHome from "../Pages/Dashboard/DashboardHome";
-import ManageUsers from "../Pages/Dashboard/ManageUsers";
-import ManageClubs from "../Pages/Dashboard/ManageClubs";
+import ManageUsers from "../Pages/Dashboard/AdminPage/ManageUsers";
+import ManageClubs from "../Pages/Dashboard/AdminPage/ManageClubs";
+import AdminRout from "./AdminRout";
 
 const router = createBrowserRouter([
   {
@@ -75,11 +76,19 @@ const router = createBrowserRouter([
       },
       {
         path: "manageUsers",
-        Component: ManageUsers,
+        element: (
+          <AdminRout>
+            <ManageUsers />
+          </AdminRout>
+        ),
       },
       {
         path: "manageClub",
-        Component: ManageClubs,
+        element: (
+          <AdminRout>
+            <ManageClubs />
+          </AdminRout>
+        ),
       },
     ],
   },

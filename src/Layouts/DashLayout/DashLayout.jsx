@@ -4,8 +4,10 @@ import { Link, Outlet } from "react-router";
 import logoImg from "../../assets/BuzzsH_logo.png";
 import { FaUserCog } from "react-icons/fa";
 import { MdOutlineAddHomeWork } from "react-icons/md";
+import useRole from "../../hooks/useRole";
 
 const DashLayout = () => {
+  const { userRole } = useRole();
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -89,31 +91,34 @@ const DashLayout = () => {
               </Link>
             </li>
 
-            {/* list item */}
-            <li>
-              <Link
-                to="/dashboard/manageUsers"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Manage Users"
-              >
-                {/* Home icon */}
-                <FaUserCog />
-                <span className="is-drawer-close:hidden">Manage Users</span>
-              </Link>
-            </li>
-
-            {/* list item */}
-            <li>
-              <Link
-                to="/dashboard/manageClub"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Manage Club"
-              >
-                {/* Home icon */}
-                <MdOutlineAddHomeWork />
-                <span className="is-drawer-close:hidden">Manage Clubs</span>
-              </Link>
-            </li>
+            {userRole?.role === "admin" && (
+              //list item
+              <div>
+                <li>
+                  <Link
+                    to="/dashboard/manageUsers"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Manage Users"
+                  >
+                    {/* Home icon */}
+                    <FaUserCog />
+                    <span className="is-drawer-close:hidden">Manage Users</span>
+                  </Link>
+                </li>
+                {/* list item */}
+                <li>
+                  <Link
+                    to="/dashboard/manageClub"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Manage Club"
+                  >
+                    {/* // Home icon  */}
+                    <MdOutlineAddHomeWork />
+                    <span className="is-drawer-close:hidden">Manage Clubs</span>
+                  </Link>
+                </li>
+              </div>
+            )}
 
             {/* List item */}
             <li>
