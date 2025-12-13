@@ -4,15 +4,17 @@ import useRole from "../../hooks/useRole";
 import ComponentLoading from "../../Components/ComponentLoading";
 import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
-import axios from "axios";
+// import axios from "axios";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { toast } from "react-toastify";
+import useImageUpload from "../../hooks/useImageUpload";
 
 const CreateClub = () => {
   const [clubLoading, setClubLoading] = useState(false);
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const { userRole, isLoading: userRoleLoading } = useRole();
+  const { uploadImage } = useImageUpload();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
@@ -21,20 +23,10 @@ const CreateClub = () => {
       setClubLoading(true);
 
       const bannerImage = data.clubBanner?.[0];
-      let bannerURL = "https://i.ibb.co.com/k236cqNw/Adobe-Express-file.jpg";
-
-      if (bannerImage) {
-        const formData = new FormData();
-        formData.append("image", bannerImage);
-
-        const image_api_link = `https://api.imgbb.com/1/upload?key=${
-          import.meta.env.VITE_imgBB_apiKey
-        }`;
-
-        const photoRes = await axios.post(image_api_link, formData);
-        bannerURL = photoRes.data.data.display_url;
-        console.log("image uploaded successfully with");
-      }
+      const bannerURL = await uploadImage(
+        bannerImage,
+        "https://i.ibb.co.com/k236cqNw/Adobe-Express-file.jpg"
+      );
 
       const clubsData = {
         clubName: data.clubName,
@@ -69,9 +61,7 @@ const CreateClub = () => {
     );
   }
 
-
-
-  if (userRole?.role === "club_manager") {
+  if (userRole?.role === "manager") {
     return (
       <div className="flex justify-center items-center my-5">
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
@@ -123,7 +113,7 @@ const CreateClub = () => {
                 />
               </div>
 
-              {/* location */}
+              {/* date */}
               <div>
                 <label className="label">Held on</label>
                 <input
@@ -153,6 +143,7 @@ const CreateClub = () => {
                   className="input input-bordered"
                   placeholder="0 for free"
                   min="0"
+                  defaultValue={0}
                 />
               </div>
 

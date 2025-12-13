@@ -22,7 +22,7 @@ const BecomeManager = () => {
           if (res.data.modifiedCount) {
             await refetch();
             toast.success("Approved your request!");
-            navigate("/createClub");
+            navigate("/");
           }
         })
         .catch((err) => console.log(err));

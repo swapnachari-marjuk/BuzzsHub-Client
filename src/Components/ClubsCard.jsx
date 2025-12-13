@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 
 const ClubsCard = ({ data }) => {
   // console.log(data);
-  const { bannerURL, clubName, description, category, membershipFee } = data;
+  const { _id, bannerURL, clubName, description, category, membershipFee } =
+    data;
 
   const truncatedDescription = description.substring(0, 80);
   const needSeeMore = description.length > 100;
@@ -48,9 +49,12 @@ const ClubsCard = ({ data }) => {
         </div>
 
         <div className="mt-auto">
-          <button className="btn btn-primary w-full  text-white font-bold py-2 px-4 rounded transition duration-200">
+          <Link
+            to={`/clubDetails/${_id}`}
+            className="btn btn-primary w-full  text-white font-bold py-2 px-4 rounded transition duration-200"
+          >
             View Details
-          </button>
+          </Link>
         </div>
       </div>
     </motion.div>

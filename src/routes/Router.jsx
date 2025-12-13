@@ -14,6 +14,9 @@ import DashboardHome from "../Pages/Dashboard/DashboardHome";
 import ManageUsers from "../Pages/Dashboard/AdminPage/ManageUsers";
 import ManageClubs from "../Pages/Dashboard/AdminPage/ManageClubs";
 import AdminRout from "./AdminRout";
+import MyClubs from "../Pages/Dashboard/ManagerPages/MyClubs";
+import ManagerRout from "./ManagerRout";
+import ClubDetails from "../Pages/ClubDetails/ClubDetails";
 
 const router = createBrowserRouter([
   {
@@ -33,18 +36,18 @@ const router = createBrowserRouter([
         Component: Events,
       },
       {
-        path: "/createClub",
-        element: (
-          <PrivetRout>
-            <CreateClub />
-          </PrivetRout>
-        ),
-      },
-      {
         path: "/becomeManager",
         element: (
           <PrivetRout>
             <BecomeManager />
+          </PrivetRout>
+        ),
+      },
+      {
+        path: "/clubDetails/:id",
+        element: (
+          <PrivetRout>
+            <ClubDetails />
           </PrivetRout>
         ),
       },
@@ -74,6 +77,7 @@ const router = createBrowserRouter([
         index: true,
         Component: DashboardHome,
       },
+      // admin routs
       {
         path: "manageUsers",
         element: (
@@ -88,6 +92,20 @@ const router = createBrowserRouter([
           <AdminRout>
             <ManageClubs />
           </AdminRout>
+        ),
+      },
+
+      // manager routs
+      {
+        path: "myClubs",
+        element: <MyClubs />,
+      },
+      {
+        path: "/dashboard/createClub",
+        element: (
+          <ManagerRout>
+            <CreateClub />
+          </ManagerRout>
         ),
       },
     ],

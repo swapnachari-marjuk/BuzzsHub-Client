@@ -8,11 +8,11 @@ const DashboardHome = () => {
     return <p className="font-bold">Dashboard for user</p>;
   }
 
-  if (userRole?.role === "club_manager") {
+  if (userRole?.role === "manager") {
     return <p className="font-bold">Dashboard for manager</p>;
   }
   if (userRole?.role === "admin") {
-    return <p className="font-bold">Dashboard for user</p>;
+    return <p className="font-bold">Dashboard for admin</p>;
   }
 
   return <div></div>;

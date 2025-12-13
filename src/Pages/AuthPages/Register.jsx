@@ -8,13 +8,20 @@ import useAxios from "../../hooks/useAxios";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 import GoogleLogin from "./GoogleLogin";
+import useImageUpload from "../../hooks/useImageUpload";
 
 const Register = () => {
   const [showPass, setShowPass] = useState(false);
   const [fbError, setFbError] = useState(false);
-  const { createUser, updateUser, loading, setLoading } = useAuth();
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const { createUser, updateUser, setLoading } = useAuth();
   const navigate = useNavigate();
   const instanceAxios = useAxios();
+
+  const { uploadImage } = useImageUpload(
+    "https://img.icons8.com/ios/50/user-male-circle--v1.png"
+  );
+
   const {
     register,
     handleSubmit,
@@ -22,7 +29,7 @@ const Register = () => {
   } = useForm();
 
   const handleRegister = async (data) => {
-    setLoading(true);
+    setSubmitLoading(true);
     const displayName = data.userName;
     const email = data.email;
     const password = data.password;
@@ -31,21 +38,10 @@ const Register = () => {
     try {
       const result = await createUser(email, password);
 
-      let photoURL = "https://img.icons8.com/ios/50/user-male-circle--v1.png";
-
-      const image_api_link = `https://api.imgbb.com/1/upload?key=${
-        import.meta.env.VITE_imgBB_apiKey
-      }`;
-
-      if (pPhoto) {
-        const formData = new FormData();
-        formData.append("image", pPhoto);
-
-        const imgRes = await axios.post(image_api_link, formData);
-        photoURL = imgRes.data.data.display_url;
-      } else {
-        console.log("user doesn't give an url");
-      }
+      const photoURL = await uploadImage(
+        pPhoto,
+        "https://img.icons8.com/ios/50/user-male-circle--v1.png"
+      );
 
       const userInfo = {
         email,
@@ -56,28 +52,22 @@ const Register = () => {
       };
 
       // updating user in firebase
-      try {
         const updateUserRes = await updateUser(displayName, userInfo.photoURL);
         console.log("User Updated");
-      } catch (error) {
-        console.log(error);
-      }
 
       // uploading user at mongodb
-      try {
         const userPostRes = await instanceAxios.post("/users", userInfo);
-      } catch (error) {
-        console.log(error);
-      }
+
+      navigate("/");
+      toast.success("User created successfully.");
     } catch (error) {
       console.log(error);
       setFbError(
         "Could not log in. Please check your email and password and try again"
       );
     } finally {
-      setLoading(false);
-      navigate("/");
-      toast.success("User created successfully.");
+      setSubmitLoading(false);
+      setLoading(false)
     }
   };
 
@@ -180,7 +170,7 @@ const Register = () => {
           )}
 
           <button className="btn btn-primary mt-4">
-            {loading ? (
+            {submitLoading ? (
               <span className="loading loading-infinity"></span>
             ) : (
               "Register"

@@ -91,6 +91,20 @@ const DashLayout = () => {
               </Link>
             </li>
 
+            {userRole?.role === "manager" && (
+              <li>
+                <Link
+                  to="/dashboard/myClubs"
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="My Clubs"
+                >
+                  {/* Home icon */}
+                  <MdOutlineAddHomeWork />
+                  <span className="is-drawer-close:hidden">My Clubs</span>
+                </Link>
+              </li>
+            )}
+
             {userRole?.role === "admin" && (
               //list item
               <div>
