@@ -56,7 +56,6 @@ const MyClubs = () => {
               <th>Sl.</th>
               <th>Name</th>
               <th>Venue</th>
-              <th>Held on</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
@@ -67,7 +66,6 @@ const MyClubs = () => {
                 <th>{i + 1}</th>
                 <td>{data.clubName}</td>
                 <td>{data.location}</td>
-                <td>{data.heldOn || "Weekly"}</td>
                 <td>{data.status}</td>
                 <td>
                   <Link

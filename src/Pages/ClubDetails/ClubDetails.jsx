@@ -27,7 +27,6 @@ const ClubDetails = () => {
     location,
     membershipFee,
     managerEmail,
-    date,
   } = clubDetails || {};
   return (
     <div className="bg-white shadow-xl rounded-lg overflow-hidden lg:m-10 md:m-5 m-2">
@@ -58,11 +57,6 @@ const ClubDetails = () => {
               <p className="flex items-center">
                 <FaMapMarkerAlt className="text-pink-600 mr-2" />
                 {location || "Online/Various"}
-              </p>
-
-              <p className="flex items-center">
-                <FaCalendarAlt className="text-pink-600 mr-2" />
-                Meets {date || "Weekly"}
               </p>
 
               <p className="flex items-center">

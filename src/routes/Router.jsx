@@ -17,11 +17,13 @@ import AdminRout from "./AdminRout";
 import MyClubs from "../Pages/Dashboard/ManagerPages/MyClubs";
 import ManagerRout from "./ManagerRout";
 import ClubDetails from "../Pages/ClubDetails/ClubDetails";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: MainLayout,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
@@ -32,7 +34,7 @@ const router = createBrowserRouter([
         Component: Clubs,
       },
       {
-        path: "/allEvents",
+        path: "/allEventsd",
         Component: Events,
       },
       {
