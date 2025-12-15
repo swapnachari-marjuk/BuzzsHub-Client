@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import ComponentLoading from "../../../Components/ComponentLoading";
 import { BiMessageAltDetail, BiSolidEdit } from "react-icons/bi";
+import { MdEventAvailable } from "react-icons/md";
 import { CiCirclePlus } from "react-icons/ci";
 import ClubDetails from "../../ClubDetails/ClubDetails";
 import { Link } from "react-router";
@@ -85,6 +86,9 @@ const MyClubs = () => {
                   >
                     <BiSolidEdit />
                   </button>
+                  <Link to={`/dashboard/createEvent/${data._id}`} className="tooltip ml-2" data-tip="Create an Event">
+                    <MdEventAvailable />
+                  </Link>
                 </td>
               </tr>
             ))}

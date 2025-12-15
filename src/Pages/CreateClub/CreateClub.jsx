@@ -12,11 +12,17 @@ import useImageUpload from "../../hooks/useImageUpload";
 const CreateClub = () => {
   const [clubLoading, setClubLoading] = useState(false);
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const { userRole, isLoading: userRoleLoading } = useRole();
   const { uploadImage } = useImageUpload();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+
+  const today = new Date().toISOString().split("T")[0];
 
   const handleCreateClub = async (data) => {
     try {
@@ -61,6 +67,10 @@ const CreateClub = () => {
     );
   }
 
+  if (userRole?.role !== "manager") {
+    return <Navigate to="/" replace />;
+  }
+
   if (userRole?.role === "manager") {
     return (
       <div className="flex justify-center items-center my-5">
@@ -74,32 +84,55 @@ const CreateClub = () => {
               <div>
                 <label className="label">Club Name</label>
                 <input
-                  {...register("clubName")}
+                  {...register("clubName", {
+                    required: "Club name is required.",
+                  })}
                   type="text"
                   className="input input-bordered"
                   placeholder="e.g., Wanderers Crew, Tech Explorers"
                 />
+
+                {errors.clubName && (
+                  <p className="text-red-500 text-sm">
+                    {errors.clubName.message}
+                  </p>
+                )}
               </div>
 
               {/* description */}
               <div>
                 <label className="label">Club Description</label>
                 <textarea
-                  {...register("description")}
+                  {...register("description", {
+                    required: "Description is required!",
+                  })}
                   placeholder="Describe what your club is about..."
                   className="textarea textarea-primary"
                 ></textarea>
               </div>
 
-              {/* category */}
+              {/* 🔧 HANDLED: category as select dropdown */}
               <div>
                 <label className="label">Club Category</label>
-                <input
-                  {...register("category")}
-                  type="text"
-                  className="input input-bordered"
-                  placeholder="e.g., Photography, Sports, Tech"
-                />
+                <select
+                  {...register("category", { required: true })}
+                  className="select select-bordered w-full"
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    Select a category
+                  </option>
+                  <option value="Photography">Photography</option>
+                  <option value="Sports">Sports</option>
+                  <option value="Technology">Technology</option>
+                  <option value="Music">Music</option>
+                  <option value="Travel">Travel</option>
+                  <option value="Art & Design">Art & Design</option>
+                  <option value="Education">Education</option>
+                  <option value="Fitness">Fitness</option>
+                  <option value="Gaming">Gaming</option>
+                  <option value="Social">Social & Community</option>
+                </select>
               </div>
 
               {/* location */}
@@ -109,17 +142,6 @@ const CreateClub = () => {
                   {...register("location")}
                   type="text"
                   className="input input-bordered"
-                  placeholder="e.g., Dhaka, Chattogram, Sylhet"
-                />
-              </div>
-
-              {/* date */}
-              <div>
-                <label className="label">Held on</label>
-                <input
-                  {...register("date", { required: true, min: new Date() })}
-                  type="date"
-                  className="input"
                   placeholder="e.g., Dhaka, Chattogram, Sylhet"
                 />
               </div>

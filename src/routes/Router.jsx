@@ -18,6 +18,8 @@ import MyClubs from "../Pages/Dashboard/ManagerPages/MyClubs";
 import ManagerRout from "./ManagerRout";
 import ClubDetails from "../Pages/ClubDetails/ClubDetails";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
+import CreateEvents from "../Pages/Dashboard/ManagerPages/CreateEvents";
+import EventsDetails from "../Pages/EventsDetails/EventsDetails";
 
 const router = createBrowserRouter([
   {
@@ -34,8 +36,12 @@ const router = createBrowserRouter([
         Component: Clubs,
       },
       {
-        path: "/allEventsd",
+        path: "/allEvents",
         Component: Events,
+      },
+      {
+        path: "/events/:eventsId",
+        Component: EventsDetails,
       },
       {
         path: "/becomeManager",
@@ -107,6 +113,14 @@ const router = createBrowserRouter([
         element: (
           <ManagerRout>
             <CreateClub />
+          </ManagerRout>
+        ),
+      },
+      {
+        path: "/dashboard/createEvent/:id",
+        element: (
+          <ManagerRout>
+            <CreateEvents />
           </ManagerRout>
         ),
       },
