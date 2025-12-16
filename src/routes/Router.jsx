@@ -21,6 +21,7 @@ import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import CreateEvents from "../Pages/Dashboard/ManagerPages/CreateEvents";
 import EventsDetails from "../Pages/EventsDetails/EventsDetails";
 import MyEvents from "../Pages/Dashboard/ManagerPages/MyEvents";
+import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "/allClubs",
         Component: Clubs,
+      },
+      {
+        path: "/success-club-payment",
+        Component: PaymentSuccess,
       },
       {
         path: "/allEvents",

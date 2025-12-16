@@ -8,10 +8,13 @@ import {
   FaEnvelope,
   FaMapMarkerAlt,
 } from "react-icons/fa";
+import { toast } from "react-toastify";
+import useAuth from "../../hooks/useAuth";
 
 const ClubDetails = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
   const { data: clubDetails } = useQuery({
     queryKey: ["clubDetails", id],
     queryFn: async () => {
@@ -19,7 +22,33 @@ const ClubDetails = () => {
       return res.data;
     },
   });
+
+  const handleJoinPay = () => {
+    const joinInfo = {
+      userEmail: user.email,
+      clubId: id,
+      status: "active",
+      paymentId: "Free_Join",
+    };
+
+    axiosSecure
+      .post("/clubMembers", joinInfo)
+      .then((res) => {
+        if (res.data.message) {
+          toast.warning(res.data.message);
+        }
+        if (res.data.insertedId) {
+          toast.success("Successfully joined.");
+        }
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+
+    console.log(joinInfo);
+  };
+
   const {
+    _id,
     bannerURL,
     clubName,
     description,
@@ -28,6 +57,19 @@ const ClubDetails = () => {
     membershipFee,
     managerEmail,
   } = clubDetails || {};
+
+  const handleJoinPaid = async () => {
+    const paymentInfo = {
+      clubId: _id,
+      clubName,
+      fee: membershipFee,
+      participantEmail: user.email,
+    };
+
+    const res = await axiosSecure.post("/create-checkout-session", paymentInfo);
+    window.location.href = res.data.url;
+  };
+
   return (
     <div className="bg-white shadow-xl rounded-lg overflow-hidden lg:m-10 md:m-5 m-2">
       {/* Banner Section */}
@@ -73,7 +115,14 @@ const ClubDetails = () => {
             </div>
           </div>
 
-          <button className="mt-6 md:mt-0 px-8 py-3 bg-pink-600 text-white font-bold rounded-lg shadow-lg hover:bg-pink-700 transition duration-300 transform hover:scale-105">
+          <button
+            onClick={
+              membershipFee > 0
+                ? () => handleJoinPaid(clubDetails)
+                : handleJoinPay
+            }
+            className="mt-6 md:mt-0 px-8 py-3 bg-pink-600 text-white font-bold rounded-lg shadow-lg hover:bg-pink-700 transition duration-300 transform hover:scale-105"
+          >
             Join
           </button>
         </div>
