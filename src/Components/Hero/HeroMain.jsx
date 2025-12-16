@@ -1,5 +1,4 @@
 import React from "react";
-// import Swiper from "swiper";
 import { SwiperSlide, Swiper } from "swiper/react";
 import Hero1 from "./Hero1";
 import Hero2 from "./Hero2";

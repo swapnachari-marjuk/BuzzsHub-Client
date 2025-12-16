@@ -20,6 +20,7 @@ import ClubDetails from "../Pages/ClubDetails/ClubDetails";
 import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 import CreateEvents from "../Pages/Dashboard/ManagerPages/CreateEvents";
 import EventsDetails from "../Pages/EventsDetails/EventsDetails";
+import MyEvents from "../Pages/Dashboard/ManagerPages/MyEvents";
 
 const router = createBrowserRouter([
   {
@@ -107,6 +108,10 @@ const router = createBrowserRouter([
       {
         path: "myClubs",
         element: <MyClubs />,
+      },
+      {
+        path: "myEvents",
+        element: <MyEvents />,
       },
       {
         path: "/dashboard/createClub",

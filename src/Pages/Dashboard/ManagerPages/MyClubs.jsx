@@ -18,6 +18,12 @@ const MyClubs = () => {
   const axiosSecure = useAxiosSecure();
   const [selectedClub, setSelectedClub] = useState(null);
 
+  const closeEditModal = () => {
+    if (editModalRef.current) {
+      editModalRef.current.close();
+    }
+  };
+
   const {
     data: cardsData,
     isLoading,
@@ -68,28 +74,40 @@ const MyClubs = () => {
                 <td>{data.clubName}</td>
                 <td>{data.location}</td>
                 <td>{data.status}</td>
-                <td>
-                  <Link
-                    to={`/clubDetails/${data._id}`}
-                    className="tooltip"
-                    data-tip="See Details"
-                  >
-                    <BiMessageAltDetail />
-                  </Link>
-                  <button
-                    onClick={() => {
-                      setSelectedClub(data);
-                      editModalRef.current.showModal();
-                    }}
-                    className="tooltip ml-2"
-                    data-tip="Edit Club"
-                  >
-                    <BiSolidEdit />
-                  </button>
-                  <Link to={`/dashboard/createEvent/${data._id}`} className="tooltip ml-2" data-tip="Create an Event">
-                    <MdEventAvailable />
-                  </Link>
-                </td>
+                {data.status === "approved" ? (
+                  <td>
+                    <Link
+                      to={`/clubDetails/${data._id}`}
+                      className="tooltip"
+                      data-tip="See Details"
+                    >
+                      <BiMessageAltDetail />
+                    </Link>
+                    <button
+                      onClick={() => {
+                        setSelectedClub(data);
+                        editModalRef.current.showModal();
+                      }}
+                      className="tooltip ml-2"
+                      data-tip="Edit Club"
+                    >
+                      <BiSolidEdit />
+                    </button>
+                    <Link
+                      to={`/dashboard/createEvent/${data._id}`}
+                      className="tooltip ml-2"
+                      data-tip="Create an Event"
+                    >
+                      <MdEventAvailable />
+                    </Link>
+                  </td>
+                ) : (
+                  <td>
+                    <span className="badge badge-error badge-sm">
+                      Actions are not allowed
+                    </span>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
@@ -103,7 +121,7 @@ const MyClubs = () => {
                 <UpdateClub
                   data={selectedClub}
                   refetch={refetch}
-                  modalRef={editModalRef}
+                  onClose={closeEditModal}
                 />
               )}
               <form method="dialog">

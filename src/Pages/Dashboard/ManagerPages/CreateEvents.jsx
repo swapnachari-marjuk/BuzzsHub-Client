@@ -1,5 +1,5 @@
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useNavigate, useParams } from "react-router";
 import { toast } from "react-toastify";
@@ -11,7 +11,7 @@ const CreateEvents = () => {
   const {
     register,
     handleSubmit,
-    watch,
+    control,
     formState: { errors },
   } = useForm();
   const axiosSecure = useAxiosSecure();
@@ -20,7 +20,10 @@ const CreateEvents = () => {
   const today = new Date().toISOString().split("T")[0];
   //   console.log(today);
 
-  const isPaid = watch("isPaid");
+  const isPaid = useWatch({
+    control,
+    name: "isPaid",
+  });
 
   const onSubmit = (data) => {
     data.managerEmail = user?.email;

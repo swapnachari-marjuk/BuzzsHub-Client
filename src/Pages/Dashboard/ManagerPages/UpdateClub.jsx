@@ -4,7 +4,7 @@ import useImageUpload from "../../../hooks/useImageUpload";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 
-const UpdateClub = ({ data: club, refetch, modalRef }) => {
+const UpdateClub = ({ data: club, refetch, onClose }) => {
   const { register, handleSubmit, reset } = useForm({
     defaultValues: {
       clubName: club.clubName,
@@ -44,7 +44,7 @@ const UpdateClub = ({ data: club, refetch, modalRef }) => {
 
       refetch();
       toast.success("Club updated successfully");
-      modalRef.current.close();
+      onClose();
     } catch (error) {
       console.log(error);
       toast.error("Something else!");

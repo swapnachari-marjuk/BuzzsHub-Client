@@ -6,7 +6,6 @@ import { useParams } from "react-router";
 import ErrorPage from "../ErrorPage/ErrorPage";
 
 const EventsDetails = () => {
-  // Get the event ID from the URL parameters (e.g., /events/693fc695d89d61a006e9986f)
   const { eventsId: id } = useParams();
   const axios = useAxios();
 
@@ -147,7 +146,6 @@ const EventsDetails = () => {
       <div className="text-center p-4">
         <button
           className="btn btn-primary text-xl font-bold rounded-full shadow-lg hover:bg-pink-700 transition-all duration-300"
-          // Add your registration/RSVP logic here
           onClick={() => alert(`Registering for ${title}`)}
         >
           Register Now

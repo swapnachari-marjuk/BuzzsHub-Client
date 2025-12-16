@@ -8,7 +8,6 @@ import Swal from "sweetalert2";
 
 const ManageClubs = () => {
   const axiosSecure = useAxiosSecure();
-  // const { user } = useAuth();
   const {
     data: clubs,
     isLoading,

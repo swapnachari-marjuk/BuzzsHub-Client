@@ -4,7 +4,6 @@ import useRole from "../../hooks/useRole";
 import ComponentLoading from "../../Components/ComponentLoading";
 import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
-// import axios from "axios";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import useImageUpload from "../../hooks/useImageUpload";
@@ -21,8 +20,6 @@ const CreateClub = () => {
   const { uploadImage } = useImageUpload();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
-
-  const today = new Date().toISOString().split("T")[0];
 
   const handleCreateClub = async (data) => {
     try {
@@ -111,7 +108,7 @@ const CreateClub = () => {
                 ></textarea>
               </div>
 
-              {/* 🔧 HANDLED: category as select dropdown */}
+              {/* category */}
               <div>
                 <label className="label">Club Category</label>
                 <select
