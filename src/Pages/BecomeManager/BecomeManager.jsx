@@ -13,10 +13,10 @@ const BecomeManager = () => {
 
   const handleManageManager = (e) => {
     e.preventDefault();
-    const userRole = e.target.user_role.value.toLowerCase();
-    if (userRole === "club_manager") {
+    const user_Role = e.target.user_role.value.toLowerCase();
+    if (user_Role === "manager") {
       axiosSecure
-        .patch("/users", { role: userRole, email: user?.email })
+        .patch("/users", { role: user_Role, email: user?.email })
         .then(async (res) => {
           console.log(res);
           if (res.data.modifiedCount) {
@@ -25,7 +25,10 @@ const BecomeManager = () => {
             navigate("/");
           }
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          toast.error("Something went wrong.");
+        });
     } else {
       toast.error("To request, select the option Manager.");
     }
@@ -75,7 +78,7 @@ const BecomeManager = () => {
                   Select The Option Manager
                 </option>
                 <option disabled={true}>{userRole?.role.toUpperCase()}</option>
-                <option value="club_manager">Manager</option>
+                <option value="manager">Manager</option>
               </select>
             </div>
 

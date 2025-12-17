@@ -11,16 +11,19 @@ const FeaturedClubs = () => {
   const { data: latestClubs = [] } = useQuery({
     queryKey: ["clubs"],
     queryFn: async () => {
-      const res = await axios.get("/clubs");
-      return res.data;
+      const res = await axios.get("/clubs?limit=6&status=approved");
+      console.log(res);
+      return res.data.limitedResult;
     },
   });
 
   return (
     <div className="my-16">
-      <h2 className="text-2xl text-pink-500 font-bold text-center mb-8">Featured Clubs</h2>
+      <h2 className="text-2xl text-pink-500 font-bold text-center mb-8">
+        Featured Clubs
+      </h2>
 
-      <Marquee speed={40} pauseOnHover={false} >
+      <Marquee speed={40} pauseOnHover={false}>
         <div className="flex gap-6 px-4">
           {latestClubs.map((club) => (
             <motion.div

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import { toast } from "react-toastify";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -9,6 +9,7 @@ import GoogleLogin from "./GoogleLogin";
 const Login = () => {
   const [fbError, setFbError] = useState(false);
   const [showPass, setShowPass] = useState(false);
+  const location = useLocation();
   const navigate = useNavigate();
   const {
     register,
@@ -24,7 +25,9 @@ const Login = () => {
         setLoading(true);
         console.log(res);
         setLoading(false);
-        navigate("/").then(() => toast.success("User logged in successfully."));
+        navigate(location.state || "/").then(() =>
+          toast.success("User logged in successfully.")
+        );
       })
       .catch((err) => {
         console.log(err);
@@ -117,7 +120,7 @@ const Login = () => {
         </fieldset>
       </form>
       <div className="flex justify-center items-center -mt-4 mb-1">
-        <GoogleLogin />
+        <GoogleLogin state={location.state} />
       </div>
       <div>
         Don't have an account?{" "}

@@ -22,6 +22,7 @@ import CreateEvents from "../Pages/Dashboard/ManagerPages/CreateEvents";
 import EventsDetails from "../Pages/EventsDetails/EventsDetails";
 import MyEvents from "../Pages/Dashboard/ManagerPages/MyEvents";
 import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
+import PaymentCanceled from "../Pages/Payment/PaymentCanceled";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "/success-club-payment",
         Component: PaymentSuccess,
+      },
+      {
+        path: "/canceled-club-payment",
+        Component: PaymentCanceled,
       },
       {
         path: "/allEvents",
@@ -85,7 +90,11 @@ const router = createBrowserRouter([
 
   {
     path: "/dashboard",
-    Component: DashLayout,
+    element: (
+      <PrivetRout>
+        <DashLayout />
+      </PrivetRout>
+    ),
     children: [
       {
         index: true,

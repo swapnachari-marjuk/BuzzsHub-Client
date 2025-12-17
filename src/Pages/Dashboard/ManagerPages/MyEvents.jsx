@@ -58,6 +58,23 @@ const MyEvents = () => {
     });
   };
   console.log(events);
+
+  if (!events || events?.length == 0) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
+        <h3 className="text-2xl font-semibold text-gray-500">
+          No clubs found!
+        </h3>
+        <p className="text-gray-400">You haven't created any clubs yet.</p>
+        <Link
+          to={"/dashboard/myClubs"}
+          className="btn btn-primary rounded-full"
+        >
+          <CiCirclePlus className="text-xl" /> Create An Event
+        </Link>
+      </div>
+    );
+  }
   return (
     <div className="my-5">
       <h3 className="text-3xl text-center font-bold text-pink-600 mb-5">
@@ -72,7 +89,7 @@ const MyEvents = () => {
               <th>Sl.</th>
               <th>Name</th>
               <th>Venue</th>
-              <th>Status</th>
+              <th>Max Att.</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -97,7 +114,7 @@ const MyEvents = () => {
                       editModalRef.current.showModal();
                     }}
                     className="tooltip ml-2"
-                    data-tip="Edit Club"
+                    data-tip="Edit Event"
                   >
                     <BiSolidEdit />
                   </button>

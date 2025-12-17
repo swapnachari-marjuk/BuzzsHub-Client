@@ -40,6 +40,23 @@ const MyClubs = () => {
     return <ComponentLoading />;
   }
 
+  if (!cardsData || cardsData?.length == 0) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
+        <h3 className="text-2xl font-semibold text-gray-500">
+          No clubs found!
+        </h3>
+        <p className="text-gray-400">You haven't created any clubs yet.</p>
+        <Link
+          to={"/dashboard/createClub"}
+          className="btn btn-primary rounded-full"
+        >
+          <CiCirclePlus className="text-xl" /> Create Your First Club
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="my-5">
       <h3 className="text-3xl text-center font-bold text-pink-600 mb-5">

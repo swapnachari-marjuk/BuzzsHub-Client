@@ -2,13 +2,14 @@ import React from "react";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router";
 
-const GoogleLogin = () => {
+const GoogleLogin = ({ state }) => {
   const navigate = useNavigate();
+  console.log(state);
   const { googleLogin } = useAuth();
   return (
     <div>
       <button
-        onClick={() => googleLogin().then(() => navigate("/"))}
+        onClick={() => googleLogin().then(() => navigate(state || "/"))}
         className="btn w-full bg-white text-black border-[#e5e5e5]"
       >
         <svg

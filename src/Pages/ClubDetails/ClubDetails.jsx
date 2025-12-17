@@ -15,6 +15,7 @@ const ClubDetails = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
+
   const { data: clubDetails } = useQuery({
     queryKey: ["clubDetails", id],
     queryFn: async () => {
@@ -23,29 +24,17 @@ const ClubDetails = () => {
     },
   });
 
-  const handleJoinPay = () => {
-    const joinInfo = {
-      userEmail: user.email,
-      clubId: id,
-      status: "active",
-      paymentId: "Free_Join",
-    };
-
-    axiosSecure
-      .post("/clubMembers", joinInfo)
-      .then((res) => {
-        if (res.data.message) {
-          toast.warning(res.data.message);
-        }
-        if (res.data.insertedId) {
-          toast.success("Successfully joined.");
-        }
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
-
-    console.log(joinInfo);
-  };
+  const { data: existingMembership, refetch: refetchMembershipStatus } =
+    useQuery({
+      queryKey: ["membership", id, user.email],
+      queryFn: async () => {
+        const membershipRes = await axiosSecure.get(
+          `/clubMembers?clubId=${id}&userEmail=${user.email}`
+        );
+        console.log("existing membership", membershipRes);
+        return membershipRes.data;
+      },
+    });
 
   const {
     _id,
@@ -58,6 +47,36 @@ const ClubDetails = () => {
     managerEmail,
   } = clubDetails || {};
 
+  const handleJoinFree = () => {
+    const joinInfo = {
+      clubName,
+      clubId: id,
+      userEmail: user.email,
+      status: "active",
+      paymentId: "Free_Join",
+    };
+
+    if (existingMembership) {
+      return toast.warning("User already joined to this Club.");
+    }
+
+    axiosSecure
+      .post("/clubMembers", joinInfo)
+      .then((res) => {
+        if (res.data.insertedId) {
+          refetchMembershipStatus();
+          toast.success("Successfully joined.");
+        }
+        console.log(res);
+      })
+      .catch((err) => {
+        toast.error("Something went wrong!");
+        console.log(err);
+      });
+
+    console.log(joinInfo);
+  };
+
   const handleJoinPaid = async () => {
     const paymentInfo = {
       clubId: _id,
@@ -66,7 +85,12 @@ const ClubDetails = () => {
       participantEmail: user.email,
     };
 
+    if (existingMembership) {
+      return toast.warn("User already have joined to this club.");
+    }
+
     const res = await axiosSecure.post("/create-checkout-session", paymentInfo);
+    console.log(res.data);
     window.location.href = res.data.url;
   };
 
@@ -116,14 +140,17 @@ const ClubDetails = () => {
           </div>
 
           <button
+            disabled={existingMembership ? true : false}
             onClick={
-              membershipFee > 0
-                ? () => handleJoinPaid(clubDetails)
-                : handleJoinPay
+              membershipFee > 0 ? () => handleJoinPaid() : handleJoinFree
             }
-            className="mt-6 md:mt-0 px-8 py-3 bg-pink-600 text-white font-bold rounded-lg shadow-lg hover:bg-pink-700 transition duration-300 transform hover:scale-105"
+            className={
+              existingMembership
+                ? "btn btn-disabled"
+                : "mt-6 md:mt-0 px-8 py-3 bg-pink-600 text-white font-bold rounded-lg shadow-lg hover:bg-pink-700 transition duration-300 transform hover:scale-105"
+            }
           >
-            Join
+            {existingMembership ? "Already joined" : "Join"}
           </button>
         </div>
 
