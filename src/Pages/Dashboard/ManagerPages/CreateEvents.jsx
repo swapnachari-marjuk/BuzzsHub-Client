@@ -33,7 +33,7 @@ const CreateEvents = () => {
         console.log(res, "hello response");
         if (res.data.result.insertedId) {
           toast.success("Created an event.");
-          navigate("/dashboard");
+          navigate("/dashboard/myEvents");
         }
       })
       .catch((err) => console.log(err));

@@ -89,6 +89,7 @@ const MyEvents = () => {
               <th>Sl.</th>
               <th>Name</th>
               <th>Venue</th>
+              <th>Fee</th>
               <th>Max Att.</th>
               <th>Actions</th>
             </tr>
@@ -99,6 +100,7 @@ const MyEvents = () => {
                 <th>{i + 1}</th>
                 <td>{data.title}</td>
                 <td>{data.location}</td>
+                <td>{data.isPaid ? data.eventFee : "Free"}</td>
                 <td>{data.maxAttendees}</td>
                 <td>
                   <Link

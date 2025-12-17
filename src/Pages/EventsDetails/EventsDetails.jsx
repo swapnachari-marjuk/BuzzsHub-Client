@@ -1,14 +1,21 @@
 import React from "react";
-import useAxios from "../../hooks/useAxios";
-import { useQuery } from "@tanstack/react-query";
-import ComponentLoading from "../../Components/ComponentLoading";
 import { useParams } from "react-router";
+import { useQuery } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+
+import useAxios from "../../hooks/useAxios";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../hooks/useAuth";
+import ComponentLoading from "../../Components/ComponentLoading";
 import ErrorPage from "../ErrorPage/ErrorPage";
 
 const EventsDetails = () => {
   const { eventsId: id } = useParams();
   const axios = useAxios();
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
 
+  // Event details
   const {
     data: event,
     isLoading,
@@ -21,16 +28,22 @@ const EventsDetails = () => {
     },
   });
 
-  console.log(event);
+  // Registration status
+  const { data: existingRegistration, refetch: refetchRegistration } = useQuery(
+    {
+      queryKey: ["registration", id, user?.email],
+      queryFn: async () => {
+        const registerRes = await axiosSecure.get(
+          `/eventRegistration?eventId=${id}&participantEmail=${user?.email}`
+        );
+        console.log("existing register", registerRes);
+        return registerRes.data;
+      },
+    }
+  );
 
-  if (isLoading) {
-    return <ComponentLoading />;
-  }
-
-  if (error) {
-    return <ErrorPage />;
-  }
-
+  if (isLoading) return <ComponentLoading />;
+  if (error) return <ErrorPage />;
   if (!event) {
     return (
       <div className="text-center text-gray-500 p-8">
@@ -50,6 +63,62 @@ const EventsDetails = () => {
     clubID,
   } = event;
 
+  const handleRegisterFree = async () => {
+    if (existingRegistration) {
+      return toast.warning("You are already registered for this event.");
+    }
+
+    const registrationInfo = {
+      eventId: id,
+      eventName: title,
+      clubId: clubID,
+      participantEmail: user.email,
+      status: "active",
+      paymentId: "Free_Registration",
+    };
+
+    try {
+      const res = await axiosSecure.post(
+        "/eventRegistration",
+        registrationInfo
+      );
+
+      if (res.data.insertedId) {
+        refetchRegistration();
+        toast.success("Successfully registered for the event.");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("something was wrong!")
+    }
+  };
+
+  const handleRegisterPaid = async () => {
+    if (existingRegistration) {
+      return toast.warning("You are already registered for this event.");
+    }
+
+    const paymentInfo = {
+      eventId: id,
+      eventName: title,
+      clubId: clubID,
+      fee: eventFee,
+      participantEmail: user.email,
+      paymentType: "eventRegistration",
+    };
+
+    try {
+      const res = await axiosSecure.post(
+        "/create-checkout-session",
+        paymentInfo
+      );
+      window.location.href = res.data.url;
+    } catch (err) {
+      console.error(err);
+      toast.error("Unable to start payment.");
+    }
+  };
+
   const formattedDate = new Date(date).toLocaleDateString("en-GB", {
     weekday: "long",
     year: "numeric",
@@ -58,7 +127,6 @@ const EventsDetails = () => {
   });
 
   const feeDisplay = isPaid ? `$${eventFee}` : "Free";
-  const feeText = isPaid ? "Registration Fee" : "Cost";
 
   return (
     <div className="container mx-auto max-w-4xl p-6 md:p-10">
@@ -81,63 +149,33 @@ const EventsDetails = () => {
       </header>
 
       <div className="bg-white p-6 md:p-8 shadow-md rounded-b-xl mb-8">
-        <h2 className="text-2xl font-bold mb-4 text-gray-800">
-          Key Information
-        </h2>
-
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 border-b pb-6 mb-6">
-          {/* Location */}
-          <div className="flex flex-col">
-            <span className="text-sm font-medium text-gray-500 uppercase">
-              Location
-            </span>
-            <span className="text-lg font-semibold text-gray-800">
-              {location}
-            </span>
+          <div>
+            <p className="text-sm text-gray-500 uppercase">Location</p>
+            <p className="text-lg font-semibold">{location}</p>
           </div>
-
-          {/* Date */}
-          <div className="flex flex-col">
-            <span className="text-sm font-medium text-gray-500 uppercase">
-              Date
-            </span>
-            <span className="text-lg font-semibold text-gray-800">
-              {formattedDate}
-            </span>
+          <div>
+            <p className="text-sm text-gray-500 uppercase">Date</p>
+            <p className="text-lg font-semibold">{formattedDate}</p>
           </div>
-
-          {/* Fee */}
-          <div className="flex flex-col">
-            <span className="text-sm font-medium text-gray-500 uppercase">
-              {feeText}
-            </span>
-            <span className="text-lg font-bold text-pink-600">
-              {feeDisplay}
-            </span>
+          <div>
+            <p className="text-sm text-gray-500 uppercase">Fee</p>
+            <p className="text-lg font-bold text-pink-600">{feeDisplay}</p>
           </div>
         </div>
 
         <section className="mb-8">
-          <h3 className="text-xl font-bold mb-3 text-gray-800">
-            About the Event
-          </h3>
-          <p className="text-gray-700 leading-relaxed whitespace-pre-wrap">
-            {description}
-          </p>
+          <h3 className="text-xl font-bold mb-3">About the Event</h3>
+          <p className="text-gray-700 whitespace-pre-wrap">{description}</p>
         </section>
 
         <section className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="text-lg font-bold mb-3 text-gray-800">
-            Additional Details
-          </h3>
           <ul className="list-disc list-inside text-gray-700 space-y-2">
             <li>
-              <span className="font-semibold">Maximum Attendees:</span>{" "}
-              {maxAttendees || "Unlimited"}
+              <strong>Maximum Attendees:</strong> {maxAttendees || "Unlimited"}
             </li>
             <li>
-              <span className="font-semibold">Organizing Club ID:</span>{" "}
-              {clubID}
+              <strong>Organizing Club ID:</strong> {clubID}
             </li>
           </ul>
         </section>
@@ -145,10 +183,13 @@ const EventsDetails = () => {
 
       <div className="text-center p-4">
         <button
-          className="btn btn-primary text-xl font-bold rounded-full shadow-lg hover:bg-pink-700 transition-all duration-300"
-          onClick={() => alert(`Registering for ${title}`)}
+          disabled={!!existingRegistration}
+          onClick={isPaid ? handleRegisterPaid : handleRegisterFree}
+          className={`btn btn-primary text-xl font-bold rounded-full shadow-lg ${
+            existingRegistration ? "btn-disabled" : ""
+          }`}
         >
-          Register Now
+          {existingRegistration ? "Already Registered" : "Register Now"}
         </button>
       </div>
     </div>

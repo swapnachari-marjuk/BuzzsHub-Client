@@ -24,12 +24,13 @@ const ClubDetails = () => {
     },
   });
 
+  // Checking a existing user
   const { data: existingMembership, refetch: refetchMembershipStatus } =
     useQuery({
       queryKey: ["membership", id, user.email],
       queryFn: async () => {
         const membershipRes = await axiosSecure.get(
-          `/clubMembers?clubId=${id}&userEmail=${user.email}`
+          `/clubMembers?clubId=${id}&participantEmail=${user.email}`
         );
         console.log("existing membership", membershipRes);
         return membershipRes.data;
@@ -51,7 +52,7 @@ const ClubDetails = () => {
     const joinInfo = {
       clubName,
       clubId: id,
-      userEmail: user.email,
+      participantEmail: user.email,
       status: "active",
       paymentId: "Free_Join",
     };
@@ -83,6 +84,7 @@ const ClubDetails = () => {
       clubName,
       fee: membershipFee,
       participantEmail: user.email,
+      paymentType: "clubMembership",
     };
 
     if (existingMembership) {
