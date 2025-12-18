@@ -60,7 +60,9 @@ const ManageUsers = () => {
   }
   return (
     <div className="overflow-x-auto">
-      <h3 className="text-3xl font-bold text-center pb-3">Manage Users</h3>
+      <h3 className="text-3xl font-bold text-center pb-3 text-pink-600F">
+        Manage Users
+      </h3>
       <table className="table">
         {/* head */}
         <thead>

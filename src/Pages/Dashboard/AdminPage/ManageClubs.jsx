@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
-import { MdDeleteForever } from "react-icons/md";
+import { MdDeleteForever, MdOutlineCancel } from "react-icons/md";
 import { FaEye, FaRegCheckCircle } from "react-icons/fa";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
 const ManageClubs = () => {
+  const modalRef = useRef();
   const axiosSecure = useAxiosSecure();
   const {
     data: clubs,
@@ -20,6 +21,9 @@ const ManageClubs = () => {
     },
   });
 
+  console.log(clubs);
+  const [selectedClub, setSelectedClub] = useState();
+
   const handleApprove = (id) => {
     axiosSecure.patch(`/clubs/${id}`, { status: "approved" }).then((res) => {
       console.log(res);
@@ -30,24 +34,26 @@ const ManageClubs = () => {
     });
   };
 
-  const handleDelete = (id) => {
+  const handleReject = (id) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: "Are you want to reject this club?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Yes!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.delete(`/clubs/${id}`).then((res) => {
-          console.log(res);
-          if (res.data.deletedCount) {
-            toast.success("Club deleted!");
-            refetch();
-          }
-        });
+        axiosSecure
+          .patch(`/clubs/${id}`, { status: "rejected" })
+          .then((res) => {
+            console.log(res);
+            if (res.data.modifiedCount) {
+              toast.success("Club rejected!");
+              refetch();
+            }
+          });
       }
     });
   };
@@ -63,7 +69,9 @@ const ManageClubs = () => {
   }
   return (
     <div className="overflow-x-auto">
-      <h3 className="text-3xl font-bold text-center pb-3">Manage Users</h3>
+      <h3 className="text-3xl font-bold text-center pb-3 text-pink-600">
+        Manage Clubs
+      </h3>
       <table className="table">
         {/* head */}
         <thead>
@@ -89,15 +97,17 @@ const ManageClubs = () => {
                   {" "}
                   <button
                     onClick={() => handleApprove(club._id)}
-                    className="btn btn-sm btn-ghost"
+                    className="btn btn-sm btn-ghost tooltip"
+                    data-tip="Approve club"
                   >
                     <FaRegCheckCircle />
                   </button>
                   <button
-                    onClick={() => handleDelete(club._id)}
-                    className="btn btn-sm btn-ghost"
+                    onClick={() => handleReject(club._id)}
+                    className="btn btn-sm btn-ghost tooltip"
+                    data-tip="Reject club"
                   >
-                    <MdDeleteForever />
+                    <MdOutlineCancel />
                   </button>
                 </td>
               )}
@@ -105,6 +115,10 @@ const ManageClubs = () => {
               {club.status === "approved" && (
                 <td>
                   <button
+                    onClick={() => {
+                      setSelectedClub(club);
+                      modalRef.current.showModal();
+                    }}
                     className="tooltip tooltip-primary"
                     data-tip="View Details"
                   >
@@ -116,6 +130,33 @@ const ManageClubs = () => {
           ))}
         </tbody>
       </table>
+      {/* Open the modal using document.getElementById('ID').showModal() method */}
+      <dialog
+        ref={modalRef}
+        id="my_modal_2"
+        className="modal modal-bottom sm:modal-middle"
+      >
+        <div className="modal-box  flex justify-center md:gap-5 gap-2">
+          <div className="stats shadow">
+            <div className="stat bg-pink-100 text-pink-500">
+              <div className="stat-title">Total Club Members</div>
+              <div className="stat-value">{selectedClub?.eventCount || 0}</div>
+              <div className="stat-desc">21% more than last month</div>
+            </div>
+          </div>
+
+          <div className="stats shadow ">
+            <div className="stat bg-pink-100 text-pink-500">
+              <div className="stat-title">Total Club Members</div>
+              <div className="stat-value">{selectedClub?.memberCount || 0}</div>
+              <div className="stat-desc">21% more than last month</div>
+            </div>
+          </div>
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
     </div>
   );
 };
