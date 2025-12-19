@@ -2,7 +2,7 @@ import React from "react";
 import { IoMdHome } from "react-icons/io";
 import { Link, Outlet } from "react-router";
 import logoImg from "../../assets/BuzzsH_logo.png";
-import { FaUserCog } from "react-icons/fa";
+import { FaUserCog, FaUsers } from "react-icons/fa";
 import { MdDateRange, MdOutlineAddHomeWork } from "react-icons/md";
 import useRole from "../../hooks/useRole";
 
@@ -85,7 +85,7 @@ const DashLayout = () => {
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                 data-tip="Dashboard Home"
               >
-                {/* Home icon */}
+                {/* dashboard Home icon */}
                 <IoMdHome />
                 <span className="is-drawer-close:hidden">Dashboard Home</span>
               </Link>
@@ -99,20 +99,33 @@ const DashLayout = () => {
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="My Clubs"
                   >
-                    {/* Home icon */}
+                    {/* clubs icon */}
                     <MdOutlineAddHomeWork />
                     <span className="is-drawer-close:hidden">My Clubs</span>
                   </Link>
                 </li>
+
                 <li>
                   <Link
                     to="/dashboard/myEvents"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                     data-tip="My Events"
                   >
-                    {/* Home icon */}
+                    {/* events icon */}
                     <MdDateRange />
                     <span className="is-drawer-close:hidden">My Events</span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    to="/dashboard/clubMembers"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="My Events"
+                  >
+                    {/*  icon */}
+                    <FaUsers />
+                    <span className="is-drawer-close:hidden">Club Members</span>
                   </Link>
                 </li>
               </>

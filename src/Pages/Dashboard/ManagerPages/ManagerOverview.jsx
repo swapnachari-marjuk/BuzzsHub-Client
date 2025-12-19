@@ -2,7 +2,7 @@ import React from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import ComponentLoading from "../../../Components/ComponentLoading";
-import { FaCalendarAlt } from "react-icons/fa";
+import { FaCalendarAlt, FaHandshake } from "react-icons/fa";
 import useAuth from "../../../hooks/useAuth";
 
 const ManagerOverview = () => {
@@ -27,7 +27,7 @@ const ManagerOverview = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="stat bg-white shadow-md rounded-lg border-l-4 border-blue-500">
           <div className="stat-figure text-blue-500 text-3xl">
-            {/* <FaUsers /> */}
+            <FaHandshake />
           </div>
           <div className="stat-title font-semibold">Total Clubs</div>
           <div className="stat-value text-blue-600">

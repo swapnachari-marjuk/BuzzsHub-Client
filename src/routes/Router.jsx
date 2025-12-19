@@ -23,6 +23,7 @@ import EventsDetails from "../Pages/EventsDetails/EventsDetails";
 import MyEvents from "../Pages/Dashboard/ManagerPages/MyEvents";
 import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
 import PaymentCanceled from "../Pages/Payment/PaymentCanceled";
+import ClubMembers from "../Pages/Dashboard/ManagerPages/ClubMembers";
 
 const router = createBrowserRouter([
   {
@@ -121,11 +122,27 @@ const router = createBrowserRouter([
       // manager routs
       {
         path: "myClubs",
-        element: <MyClubs />,
+        element: (
+          <ManagerRout>
+            <MyClubs />
+          </ManagerRout>
+        ),
       },
       {
         path: "myEvents",
-        element: <MyEvents />,
+        element: (
+          <ManagerRout>
+            <MyEvents />
+          </ManagerRout>
+        ),
+      },
+      {
+        path: "clubMembers",
+        element: (
+          <ManagerRout>
+            <ClubMembers />
+          </ManagerRout>
+        ),
       },
       {
         path: "/dashboard/createClub",
