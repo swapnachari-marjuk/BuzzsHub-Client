@@ -3,7 +3,11 @@ import { IoMdHome } from "react-icons/io";
 import { Link, Outlet } from "react-router";
 import logoImg from "../../assets/BuzzsH_logo.png";
 import { FaUserCog, FaUsers } from "react-icons/fa";
-import { MdDateRange, MdOutlineAddHomeWork, MdOutlineEventNote } from "react-icons/md";
+import {
+  MdDateRange,
+  MdOutlineAddHomeWork,
+  MdOutlineEventNote,
+} from "react-icons/md";
 import useRole from "../../hooks/useRole";
 
 const DashLayout = () => {
@@ -169,6 +173,34 @@ const DashLayout = () => {
                     {/* // Home icon  */}
                     <MdOutlineAddHomeWork />
                     <span className="is-drawer-close:hidden">Manage Clubs</span>
+                  </Link>
+                </li>
+              </>
+            )}
+
+            {userRole?.role === "user" && (
+              <>
+                <li>
+                  <Link
+                    to="/dashboard/usersClubs"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="My Clubs"
+                  >
+                    {/*  icon */}
+                    <FaUsers />
+                    <span className="is-drawer-close:hidden">My Clubs</span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    to="/dashboard/usersEvents"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="My Events"
+                  >
+                    {/*  icon */}
+                    <MdDateRange />
+                    <span className="is-drawer-close:hidden">My Events</span>
                   </Link>
                 </li>
               </>

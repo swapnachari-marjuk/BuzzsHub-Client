@@ -110,6 +110,7 @@ const EventsDetails = () => {
       participantEmail: user.email,
       paymentType: "eventRegistration",
       eventManager: managerEmail,
+      location,
     };
 
     try {

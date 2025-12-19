@@ -25,6 +25,8 @@ import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
 import PaymentCanceled from "../Pages/Payment/PaymentCanceled";
 import ClubMembers from "../Pages/Dashboard/ManagerPages/ClubMembers";
 import EventRegistration from "../Pages/Dashboard/ManagerPages/EventRegistration";
+import UsersClub from "../Pages/Dashboard/UserPages/UsersClub";
+import UsersEvent from "../Pages/Dashboard/UserPages/UsersEvent";
 
 const router = createBrowserRouter([
   {
@@ -168,6 +170,15 @@ const router = createBrowserRouter([
             <CreateEvents />
           </ManagerRout>
         ),
+      },
+
+      {
+        path: "usersClubs",
+        element: <UsersClub />,
+      },
+      {
+        path: "usersEvents",
+        element: <UsersEvent />,
       },
     ],
   },

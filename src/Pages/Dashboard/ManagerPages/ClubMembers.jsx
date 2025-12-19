@@ -123,7 +123,7 @@ const ClubMembers = () => {
                         onClick={() => handleExpired(member._id)}
                         className="btn btn-primary btn-xs sm:btn-sm"
                       >
-                        Manage
+                        Make Expired
                       </button>
                     </td>
                   </tr>

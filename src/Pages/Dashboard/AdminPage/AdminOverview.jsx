@@ -2,7 +2,13 @@ import React from "react";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import ComponentLoading from "../../../Components/ComponentLoading";
-import { FaCalendarAlt, FaCheckCircle, FaTimesCircle, FaUsers, FaUserTie } from "react-icons/fa";
+import {
+  FaCalendarAlt,
+  FaCheckCircle,
+  FaTimesCircle,
+  FaUsers,
+  FaUserTie,
+} from "react-icons/fa";
 
 const AdminOverview = () => {
   console.log("Admin overview page is loaded");
@@ -59,7 +65,6 @@ const AdminOverview = () => {
           <div className="stat-title font-semibold">Club Members</div>
           <div className="stat-value text-orange-600">{membersCount}</div>
         </div>
-
 
         {/* Approved Clubs */}
         <div className="stat bg-white shadow-md rounded-lg border-l-4 border-green-500">
