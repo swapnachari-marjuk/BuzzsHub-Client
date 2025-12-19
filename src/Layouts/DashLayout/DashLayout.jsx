@@ -3,7 +3,7 @@ import { IoMdHome } from "react-icons/io";
 import { Link, Outlet } from "react-router";
 import logoImg from "../../assets/BuzzsH_logo.png";
 import { FaUserCog, FaUsers } from "react-icons/fa";
-import { MdDateRange, MdOutlineAddHomeWork } from "react-icons/md";
+import { MdDateRange, MdOutlineAddHomeWork, MdOutlineEventNote } from "react-icons/md";
 import useRole from "../../hooks/useRole";
 
 const DashLayout = () => {
@@ -121,11 +121,25 @@ const DashLayout = () => {
                   <Link
                     to="/dashboard/clubMembers"
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                    data-tip="My Events"
+                    data-tip="Club Members"
                   >
                     {/*  icon */}
                     <FaUsers />
                     <span className="is-drawer-close:hidden">Club Members</span>
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    to="/dashboard/eventParticipants"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                    data-tip="Event Participants"
+                  >
+                    {/*  icon */}
+                    <MdOutlineEventNote />
+                    <span className="is-drawer-close:hidden">
+                      Event Participants
+                    </span>
                   </Link>
                 </li>
               </>
@@ -133,7 +147,7 @@ const DashLayout = () => {
 
             {userRole?.role === "admin" && (
               //list item
-              <div>
+              <>
                 <li>
                   <Link
                     to="/dashboard/manageUsers"
@@ -157,7 +171,7 @@ const DashLayout = () => {
                     <span className="is-drawer-close:hidden">Manage Clubs</span>
                   </Link>
                 </li>
-              </div>
+              </>
             )}
 
             {/* List item */}

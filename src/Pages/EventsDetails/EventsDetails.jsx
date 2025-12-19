@@ -61,7 +61,10 @@ const EventsDetails = () => {
     isPaid,
     maxAttendees,
     clubID,
+    managerEmail,
   } = event;
+
+  console.log(managerEmail);
 
   const handleRegisterFree = async () => {
     if (existingRegistration) {
@@ -75,6 +78,7 @@ const EventsDetails = () => {
       participantEmail: user.email,
       status: "active",
       paymentId: "Free_Registration",
+      eventManager: event.managerEmail,
     };
 
     try {
@@ -89,7 +93,7 @@ const EventsDetails = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("something was wrong!")
+      toast.error("something was wrong!");
     }
   };
 
@@ -105,6 +109,7 @@ const EventsDetails = () => {
       fee: eventFee,
       participantEmail: user.email,
       paymentType: "eventRegistration",
+      eventManager: managerEmail,
     };
 
     try {

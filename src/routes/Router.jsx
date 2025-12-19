@@ -24,6 +24,7 @@ import MyEvents from "../Pages/Dashboard/ManagerPages/MyEvents";
 import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
 import PaymentCanceled from "../Pages/Payment/PaymentCanceled";
 import ClubMembers from "../Pages/Dashboard/ManagerPages/ClubMembers";
+import EventRegistration from "../Pages/Dashboard/ManagerPages/EventRegistration";
 
 const router = createBrowserRouter([
   {
@@ -141,6 +142,14 @@ const router = createBrowserRouter([
         element: (
           <ManagerRout>
             <ClubMembers />
+          </ManagerRout>
+        ),
+      },
+      {
+        path: "eventParticipants",
+        element: (
+          <ManagerRout>
+            <EventRegistration />
           </ManagerRout>
         ),
       },

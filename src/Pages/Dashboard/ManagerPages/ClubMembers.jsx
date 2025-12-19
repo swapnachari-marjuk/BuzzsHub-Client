@@ -2,11 +2,15 @@ import React from "react";
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import ComponentLoading from "../../../Components/ComponentLoading";
-import { useQueries, useQuery } from "@tanstack/react-query";
+import { useQueries, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
 
 const ClubMembers = () => {
+  const queryClient = useQueryClient();
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
+
+  // accessing club data (id and name)
   const { data: clubsData = [], isLoading } = useQuery({
     queryKey: ["clubs", user?.email, "approved", "managerOverview"],
 
@@ -20,6 +24,7 @@ const ClubMembers = () => {
     enabled: !!user,
   });
 
+  // loading club members by using club id
   const clubMembers = useQueries({
     queries: clubsData?.map((data) => ({
       queryKey: ["clubMembers", data?._id],
@@ -32,18 +37,36 @@ const ClubMembers = () => {
       enabled: !!data?._id,
     })),
   });
+
+  // format the array of array by using flatmap
   const allMembers = clubMembers.flatMap((query) => query.data || []);
 
+  // preparing data to show.
   const groupedData = allMembers.reduce((acc, current) => {
-    const clubName = current.clubName.trim(); 
+    const clubName = current.clubName.trim();
 
     if (!acc[clubName]) {
-      acc[clubName] = []; 
+      acc[clubName] = [];
     }
 
-    acc[clubName].push(current); 
+    acc[clubName].push(current);
     return acc;
   }, {});
+
+  const handleExpired = (id) => {
+    axiosSecure
+      .patch(`/memberExpired/${id}`, { status: "expired" })
+      .then((res) => {
+        if (res.data.modifiedCount) {
+          toast.success("Expired this user.");
+          queryClient.invalidateQueries({ queryKey: ["clubMembers"] });
+        }
+      })
+      .catch((err) => {
+        toast.error("something went wrong");
+        console.log(err);
+      });
+  };
 
   console.log(groupedData);
 
@@ -97,9 +120,7 @@ const ClubMembers = () => {
                     </td>
                     <td className="text-center">
                       <button
-                        onClick={() =>
-                          alert(`Details for: ${member.participantEmail}`)
-                        }
+                        onClick={() => handleExpired(member._id)}
                         className="btn btn-primary btn-xs sm:btn-sm"
                       >
                         Manage
