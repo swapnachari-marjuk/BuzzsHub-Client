@@ -97,9 +97,9 @@ const Navbar = () => {
               <div className="flex justify-center items-center gap-1">
                 <img
                   className="w-8 rounded-full "
-                  src={user.photoURL}
+                  src={user?.photoURL}
                   alt="user avatar"
-                  title={user.displayName}
+                  title={user?.displayName}
                 />
               </div>
             </div>

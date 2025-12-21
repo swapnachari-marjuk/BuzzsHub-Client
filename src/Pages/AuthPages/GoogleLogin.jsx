@@ -1,15 +1,40 @@
 import React from "react";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
+import useAxios from "../../hooks/useAxios";
 
 const GoogleLogin = ({ state }) => {
   const navigate = useNavigate();
-  console.log(state);
+  const instanceAxios = useAxios();
   const { googleLogin } = useAuth();
+
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await googleLogin();
+      const user = result.user;
+
+      const userInfo = {
+        email: user.email,
+        displayName: user.displayName,
+        photoURL: user.photoURL,
+        role: "user",
+        createdAt: new Date(),
+      };
+
+      await instanceAxios.post("/users", userInfo);
+
+      toast.success("Login Successful!");
+      navigate(state || "/");
+    } catch (error) {
+      console.error("Google Login Error:", error);
+      toast.error("Failed to login with Google");
+    }
+  };
   return (
     <div>
       <button
-        onClick={() => googleLogin().then(() => navigate(state || "/"))}
+        onClick={handleGoogleLogin}
         className="btn w-full bg-white text-black border-[#e5e5e5]"
       >
         <svg

@@ -49,8 +49,8 @@ const UserUpEv = () => {
 
           {/* Table Body */}
           <tbody>
-            {upcomingEvents.length > 0 ? (
-              upcomingEvents.map((event) => (
+            {upcomingEvents?.length > 0 ? (
+              upcomingEvents?.map((event) => (
                 <tr
                   key={event._id}
                   className="hover:bg-pink-50/50 transition-colors group"

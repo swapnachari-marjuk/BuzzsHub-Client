@@ -72,64 +72,70 @@ const ManageClubs = () => {
       <h3 className="text-3xl font-bold text-center pb-3 text-pink-600">
         Manage Clubs
       </h3>
-      <table className="table">
-        {/* head */}
-        <thead>
-          <tr>
-            <th>Sl.</th>
-            <th>Club Name</th>
-            <th>Managers Email</th>
-            <th>Membership Fee</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {clubs?.map((club, i) => (
-            <tr key={club._id}>
-              <th>{i + 1}</th>
-              <td>{club.clubName}</td>
-              <td>{club.managerEmail}</td>
-              <td>{club.membershipFee}</td>
-              <td>{club.status}</td>
-              {club.status === "pending" && (
-                <td>
-                  {" "}
-                  <button
-                    onClick={() => handleApprove(club._id)}
-                    className="btn btn-sm btn-ghost tooltip"
-                    data-tip="Approve club"
-                  >
-                    <FaRegCheckCircle />
-                  </button>
-                  <button
-                    onClick={() => handleReject(club._id)}
-                    className="btn btn-sm btn-ghost tooltip"
-                    data-tip="Reject club"
-                  >
-                    <MdOutlineCancel />
-                  </button>
-                </td>
-              )}
-
-              {club.status === "approved" && (
-                <td>
-                  <button
-                    onClick={() => {
-                      setSelectedClub(club);
-                      modalRef.current.showModal();
-                    }}
-                    className="tooltip tooltip-primary"
-                    data-tip="View Details"
-                  >
-                    <FaEye />
-                  </button>
-                </td>
-              )}
+      {clubs?.length === 0 ? (
+        <div className="text-center text-gray-500">
+          No Club found.
+        </div>
+      ) : (
+        <table className="table">
+          {/* head */}
+          <thead>
+            <tr>
+              <th>Sl.</th>
+              <th>Club Name</th>
+              <th>Managers Email</th>
+              <th>Membership Fee</th>
+              <th>Status</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {clubs?.map((club, i) => (
+              <tr key={club._id}>
+                <th>{i + 1}</th>
+                <td>{club.clubName}</td>
+                <td>{club.managerEmail}</td>
+                <td>{club.membershipFee}</td>
+                <td>{club.status}</td>
+                {club.status === "pending" && (
+                  <td>
+                    {" "}
+                    <button
+                      onClick={() => handleApprove(club._id)}
+                      className="btn btn-sm btn-ghost tooltip"
+                      data-tip="Approve club"
+                    >
+                      <FaRegCheckCircle />
+                    </button>
+                    <button
+                      onClick={() => handleReject(club._id)}
+                      className="btn btn-sm btn-ghost tooltip"
+                      data-tip="Reject club"
+                    >
+                      <MdOutlineCancel />
+                    </button>
+                  </td>
+                )}
+
+                {club.status === "approved" && (
+                  <td>
+                    <button
+                      onClick={() => {
+                        setSelectedClub(club);
+                        modalRef.current.showModal();
+                      }}
+                      className="tooltip tooltip-primary"
+                      data-tip="View Details"
+                    >
+                      <FaEye />
+                    </button>
+                  </td>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
       {/* Open the modal using document.getElementById('ID').showModal() method */}
       <dialog
         ref={modalRef}

@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
-import axios from "axios";
 import useAxios from "../../hooks/useAxios";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
