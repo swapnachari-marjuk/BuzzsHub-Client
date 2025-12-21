@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -10,16 +10,18 @@ import {
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import useAuth from "../../hooks/useAuth";
+import useAxios from "../../hooks/useAxios";
 
 const ClubDetails = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios();
   const { user } = useAuth();
 
   const { data: clubDetails } = useQuery({
     queryKey: ["clubDetails", id],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/clubs/${id}`);
+      const res = await axiosInstance.get(`/clubs/${id}`);
       return res.data;
     },
   });
@@ -27,10 +29,10 @@ const ClubDetails = () => {
   // Checking a existing user
   const { data: existingMembership, refetch: refetchMembershipStatus } =
     useQuery({
-      queryKey: ["membership", id, user.email],
+      queryKey: ["membership", id, user?.email],
       queryFn: async () => {
         const membershipRes = await axiosSecure.get(
-          `/clubMembers?clubId=${id}&participantEmail=${user.email}`
+          `/clubMembers?clubId=${id}&participantEmail=${user?.email}&purpose=isExisting`
         );
         console.log("existing membership", membershipRes);
         return membershipRes.data;
@@ -52,7 +54,7 @@ const ClubDetails = () => {
     const joinInfo = {
       clubName,
       clubId: id,
-      participantEmail: user.email,
+      participantEmail: user?.email,
       status: "active",
       paymentId: "Free_Join",
     };
@@ -141,19 +143,28 @@ const ClubDetails = () => {
             </div>
           </div>
 
-          <button
-            disabled={existingMembership ? true : false}
-            onClick={
-              membershipFee > 0 ? () => handleJoinPaid() : handleJoinFree
-            }
-            className={
-              existingMembership
-                ? "btn btn-disabled"
-                : "mt-6 md:mt-0 px-8 py-3 bg-pink-600 text-white font-bold rounded-lg shadow-lg hover:bg-pink-700 transition duration-300 transform hover:scale-105"
-            }
-          >
-            {existingMembership ? "Already joined" : "Join"}
-          </button>
+          {user ? (
+            <button
+              disabled={existingMembership ? true : false}
+              onClick={
+                membershipFee > 0 ? () => handleJoinPaid() : handleJoinFree
+              }
+              className={
+                existingMembership
+                  ? "btn btn-disabled"
+                  : "mt-6 md:mt-0 px-8 py-3 bg-pink-600 text-white font-bold rounded-lg shadow-lg hover:bg-pink-700 transition duration-300 transform hover:scale-105"
+              }
+            >
+              {existingMembership ? "Already joined" : "Join"}
+            </button>
+          ) : (
+            <Link
+              to={"/login"}
+              className="mt-6 md:mt-0 px-8 py-3 bg-pink-600 text-white font-bold rounded-lg shadow-lg hover:bg-pink-700 transition duration-300 transform hover:scale-105"
+            >
+              Login to Join
+            </Link>
+          )}
         </div>
 
         <div className="prose max-w-none">

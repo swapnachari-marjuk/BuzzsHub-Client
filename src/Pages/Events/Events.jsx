@@ -6,11 +6,11 @@ import EventsCard from "../../Components/EventsCard";
 import ComponentLoading from "../../Components/ComponentLoading";
 
 const Events = () => {
-  const axios = useAxios();
+  const axiosInstance = useAxios();
   const { data: events = [], isLoading } = useQuery({
     queryKey: ["events"],
     queryFn: async () => {
-      const res = await axios.get("/events");
+      const res = await axiosInstance.get("/events");
       return res.data;
     },
   });
@@ -19,6 +19,7 @@ const Events = () => {
   if (isLoading) {
     return <ComponentLoading />;
   }
+
   return (
     <div className="container mx-auto p-4">
       <h2 className="text-3xl font-extrabold mb-8 text-center text-pink-600">

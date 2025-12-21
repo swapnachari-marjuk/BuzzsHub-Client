@@ -3,6 +3,7 @@ import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import OverviewState from "./OverviewState";
+import UserUpEv from "./UserUpEv";
 
 const UserOverview = () => {
   const { user } = useAuth();
@@ -19,7 +20,7 @@ const UserOverview = () => {
 
   return (
     <div>
-      {/* welcome */}
+      {/* welcome and states*/}
       <div className="bg-white/60 backdrop-blur-md rounded-2xl p-6 shadow-sm border border-pink-100">
         <h1 className="text-2xl font-semibold text-pink-700">
           Welcome to Your Dashboard 👋
@@ -40,10 +41,15 @@ const UserOverview = () => {
             Send Join Requests
           </div>
         </div>
+
+        {/* states */}
         <OverviewState overviewData={overviewData} />
+
+        {/* upcoming events */}
+        <UserUpEv />
       </div>
 
-      {/* club and events overview  */}
+      {/*   */}
     </div>
   );
 };

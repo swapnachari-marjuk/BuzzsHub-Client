@@ -1,15 +1,15 @@
 import React from "react";
 import ClubsCard from "../../Components/ClubsCard";
 import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 import ComponentLoading from "../../Components/ComponentLoading";
+import useAxios from "../../hooks/useAxios";
 
 const Clubs = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxios();
   const { data: cardsData, isLoading } = useQuery({
-    queryKey: ["cards", "status"],
+    queryKey: ["clubs", "status"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/clubs?status=approved");
+      const res = await axiosInstance.get("/clubs?status=approved");
       return res.data;
     },
   });

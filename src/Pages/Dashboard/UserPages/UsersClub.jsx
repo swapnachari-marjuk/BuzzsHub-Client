@@ -58,7 +58,6 @@ const UsersClub = () => {
               </h3>
 
               <div className="space-y-2 text-gray-600">
-                {/* Location - যেহেতু আপনার ডাটাতে নেই, তাই আপাতত 'Online' বা 'Main Campus' দেওয়া হয়েছে */}
                 <p className="flex items-center gap-2">
                   <span className="font-medium text-gray-800">Location:</span>
                   {club.location || "Online"}

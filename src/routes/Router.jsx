@@ -68,11 +68,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/clubDetails/:id",
-        element: (
-          <PrivetRout>
-            <ClubDetails />
-          </PrivetRout>
-        ),
+        Component: ClubDetails,
       },
     ],
   },

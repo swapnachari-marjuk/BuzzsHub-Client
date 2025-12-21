@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
@@ -11,7 +11,7 @@ import ErrorPage from "../ErrorPage/ErrorPage";
 
 const EventsDetails = () => {
   const { eventsId: id } = useParams();
-  const axios = useAxios();
+  const axiosInstance = useAxios();
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
 
@@ -23,7 +23,7 @@ const EventsDetails = () => {
   } = useQuery({
     queryKey: ["eventDetails", id],
     queryFn: async () => {
-      const res = await axios.get(`/events/${id}`);
+      const res = await axiosInstance.get(`/events/${id}`);
       return res.data;
     },
   });
@@ -34,13 +34,14 @@ const EventsDetails = () => {
       queryKey: ["registration", id, user?.email],
       queryFn: async () => {
         const registerRes = await axiosSecure.get(
-          `/eventRegistration?eventId=${id}&participantEmail=${user?.email}`
+          `/eventRegistration?eventId=${id}&participantEmail=${user?.email}&purpose=isExisting`
         );
-        console.log("existing register", registerRes);
         return registerRes.data;
       },
     }
   );
+
+  console.log("existing register", existingRegistration);
 
   if (isLoading) return <ComponentLoading />;
   if (error) return <ErrorPage />;
@@ -188,15 +189,24 @@ const EventsDetails = () => {
       </div>
 
       <div className="text-center p-4">
-        <button
-          disabled={!!existingRegistration}
-          onClick={isPaid ? handleRegisterPaid : handleRegisterFree}
-          className={`btn btn-primary text-xl font-bold rounded-full shadow-lg ${
-            existingRegistration ? "btn-disabled" : ""
-          }`}
-        >
-          {existingRegistration ? "Already Registered" : "Register Now"}
-        </button>
+        {user ? (
+          <button
+            disabled={!!existingRegistration}
+            onClick={isPaid ? handleRegisterPaid : handleRegisterFree}
+            className={`btn btn-primary text-xl font-bold rounded-full shadow-lg ${
+              existingRegistration ? "btn-disabled" : ""
+            }`}
+          >
+            {existingRegistration ? "Already Registered" : "Register Now"}
+          </button>
+        ) : (
+          <Link
+            to={"/login"}
+            className="mt-6 md:mt-0 px-8 py-3 bg-pink-600 text-white font-bold rounded-lg shadow-lg hover:bg-pink-700 transition duration-300 transform hover:scale-105"
+          >
+            Login to Join
+          </Link>
+        )}
       </div>
     </div>
   );
