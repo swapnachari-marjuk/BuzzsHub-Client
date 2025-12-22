@@ -11,7 +11,7 @@ const FeaturedClubs = () => {
   const { data: latestClubs = [] } = useQuery({
     queryKey: ["clubs"],
     queryFn: async () => {
-      const res = await axios.get("/clubs?limit=6&status=approved");
+      const res = await axios.get("/clubs?limit=5&status=approved");
       console.log(res);
       return res.data.limitedResult;
     },

@@ -25,6 +25,8 @@ const Clubs = () => {
   });
   // console.log(cardsData);
 
+  console.log({ sort, category });
+
   if (isLoading) {
     return <ComponentLoading />;
   }

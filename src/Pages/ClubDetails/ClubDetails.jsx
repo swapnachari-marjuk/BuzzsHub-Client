@@ -34,11 +34,12 @@ const ClubDetails = () => {
         const membershipRes = await axiosSecure.get(
           `/clubMembers?clubId=${id}&participantEmail=${user?.email}&purpose=isExisting`
         );
-        console.log("existing membership", membershipRes);
         return membershipRes.data;
       },
+      enabled: !!user?.email && !!id,
     });
 
+  console.log("existing membership", existingMembership);
   const {
     _id,
     bannerURL,
