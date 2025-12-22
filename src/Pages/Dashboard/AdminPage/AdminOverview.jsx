@@ -9,6 +9,7 @@ import {
   FaUsers,
   FaUserTie,
 } from "react-icons/fa";
+import { MdOutlinePendingActions } from "react-icons/md";
 
 const AdminOverview = () => {
   console.log("Admin overview page is loaded");
@@ -31,6 +32,8 @@ const AdminOverview = () => {
 
   const approvedClubs =
     clubsByStatus?.find((c) => c._id === "approved")?.count || 0;
+  const pendingClubs =
+    clubsByStatus?.find((c) => c._id === "pending")?.count || 0;
   const rejectedClubs =
     clubsByStatus?.find((c) => c._id === "rejected")?.count || 0;
 
@@ -73,6 +76,15 @@ const AdminOverview = () => {
           </div>
           <div className="stat-title font-semibold">Approved Clubs</div>
           <div className="stat-value text-green-600">{approvedClubs}</div>
+        </div>
+
+        {/* pending Clubs */}
+        <div className="stat bg-white shadow-md rounded-lg border-l-4 border-green-500">
+          <div className="stat-figure text-green-500 text-3xl">
+            <MdOutlinePendingActions />
+          </div>
+          <div className="stat-title font-semibold">Pending Clubs</div>
+          <div className="stat-value text-green-600">{pendingClubs}</div>
         </div>
 
         {/* Rejected Clubs */}

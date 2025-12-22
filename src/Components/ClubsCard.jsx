@@ -22,13 +22,19 @@ const ClubsCard = ({ data }) => {
       }}
       className="rounded-2xl"
     >
-      <figure>
-        <img
-          className="hover:rounded-t-2xl rounded-t-xl hover:rounded-b-none w-full max-h-55 object-cover"
-          src={bannerURL}
-          alt={`Banner for ${clubName}`}
-        />
-      </figure>
+      {bannerURL ? (
+        <figure>
+          <img
+            className="hover:rounded-t-2xl rounded-t-xl hover:rounded-b-none w-full max-h-55 object-cover"
+            src={bannerURL}
+            alt={`Banner for ${clubName}`}
+          />
+        </figure>
+      ) : (
+        <div className="hover:rounded-t-2xl flex justify-center items-center bg-red-300 rounded-t-xl hover:rounded-b-none w-full min-h-55 object-cover">
+          <h3 className="text-xl font-bold text-red-600">Image Not Found.</h3>
+        </div>
+      )}
 
       <div className="flex flex-col space-y-3 p-4">
         <h2 className="font-bold text-xl">{clubName}</h2>

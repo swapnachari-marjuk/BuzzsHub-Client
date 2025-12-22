@@ -1,12 +1,10 @@
 import React, { useEffect } from "react";
 import { Link, useSearchParams } from "react-router";
-import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { HiCheckCircle } from "react-icons/hi";
 import useAxios from "../../hooks/useAxios";
 
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
-  // const axiosSecure = useAxiosSecure();
   const axiosInstance = useAxios();
   const sessionId = searchParams.get("session_id");
 

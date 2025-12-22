@@ -24,9 +24,7 @@ const FeaturedClubs = () => {
       </h2>
 
       {latestClubs.length === 0 ? (
-        <div className="text-center text-gray-500">
-          No Featured Club found.
-        </div>
+        <div className="text-center text-gray-500">No Featured Club found.</div>
       ) : (
         <Marquee speed={40} pauseOnHover={false}>
           <div className="flex gap-6 px-4">
@@ -42,12 +40,17 @@ const FeaturedClubs = () => {
               >
                 {/* Image Section */}
                 <figure className="relative h-44 overflow-hidden">
-                  <img
-                    src={club.bannerURL}
-                    alt={club.clubName}
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-
+                  {club?.bannerURL ? (
+                    <img
+                      src={club.bannerURL}
+                      alt={club.clubName}
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="h-full w-full flex justify-center items-center bg-red-300 object-cover transition-transform duration-500 group-hover:scale-105">
+                      <h3 className="text-xl font-bold text-red-600">Image Not Found.</h3>
+                    </div>
+                  )}
                   {/* Category badge overlay */}
                   <span className="absolute top-3 left-3 badge bg-pink-200 text-pink-600">
                     {club.category}

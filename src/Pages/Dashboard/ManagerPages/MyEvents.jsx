@@ -63,9 +63,9 @@ const MyEvents = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] space-y-4">
         <h3 className="text-2xl font-semibold text-gray-500">
-          No clubs found!
+          No event found!
         </h3>
-        <p className="text-gray-400">You haven't created any clubs yet.</p>
+        <p className="text-gray-400">You haven't created any event yet.</p>
         <Link
           to={"/dashboard/myClubs"}
           className="btn btn-primary rounded-full"

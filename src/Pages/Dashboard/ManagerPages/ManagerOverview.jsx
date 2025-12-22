@@ -17,7 +17,7 @@ const ManagerOverview = () => {
       return res.data;
     },
   });
-  console.log(overviewData);
+  // console.log(overviewData);
   if (isLoading) {
     return <ComponentLoading />;
   }
@@ -31,7 +31,7 @@ const ManagerOverview = () => {
           </div>
           <div className="stat-title font-semibold">Total Clubs</div>
           <div className="stat-value text-blue-600">
-            {overviewData.managersClubs}
+            {overviewData?.managersClubs}
           </div>
         </div>
 
@@ -41,7 +41,7 @@ const ManagerOverview = () => {
           </div>
           <div className="stat-title font-semibold">Total Events</div>
           <div className="stat-value text-purple-600">
-            {overviewData.managersEvents}
+            {overviewData?.managersEvents}
           </div>
         </div>
       </div>
