@@ -36,7 +36,10 @@ const CreateEvents = () => {
           navigate("/dashboard/myEvents");
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        toast.error("Something went wrong!");
+        console.log(err);
+      });
   };
 
   return (
