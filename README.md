@@ -1,6 +1,6 @@
 # 🌐 Buzz’sHub – Membership & Event Management System
 
-**ClubSphere** is a full-stack **MERN Web Application** designed to manage local community clubs such as Photography, Hiking, Tech, and Book Clubs.  
+**Buzz’sHub** is a full-stack **MERN Web Application** designed to manage local community clubs such as Photography, Hiking, Tech, and Book Clubs.  
 The platform helps users discover clubs, join memberships, participate in events, and enables club managers and admins to manage members, payments, and events efficiently.
 
 ---
