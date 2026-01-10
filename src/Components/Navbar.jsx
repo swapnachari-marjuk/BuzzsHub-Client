@@ -33,18 +33,23 @@ const Navbar = () => {
   const links = (
     <>
       <li>
-        <NavLink to={"/allClubs"} className="nav-link">
+        <NavLink to={"/allClubs"} className="nav-link font-bold">
           Clubs
         </NavLink>
       </li>
       <li>
-        <NavLink to={"/allEvents"} className="nav-link">
+        <NavLink to={"/allEvents"} className="nav-link font-bold">
           Events
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to={"/aboutBH"} className="nav-link font-bold">
+          About BH
         </NavLink>
       </li>
       {userRole?.role === "user" && (
         <li>
-          <NavLink to={"/becomeManager"} className="nav-link">
+          <NavLink to={"/becomeManager"} className="nav-link font-bold">
             Become Manager
           </NavLink>
         </li>
