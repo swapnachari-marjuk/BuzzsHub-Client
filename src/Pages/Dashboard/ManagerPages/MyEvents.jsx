@@ -78,7 +78,7 @@ const MyEvents = () => {
   return (
     <div className="my-5">
       <h3 className="text-3xl text-center font-bold text-pink-600 mb-5">
-        All clubs
+        My Events
       </h3>
 
       <div className="overflow-x-auto">

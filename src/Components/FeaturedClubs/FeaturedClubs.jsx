@@ -12,29 +12,30 @@ const FeaturedClubs = () => {
     queryKey: ["clubs"],
     queryFn: async () => {
       const res = await axios.get("/clubs?limit=5&status=approved");
-      console.log(res);
       return res.data.limitedResult;
     },
   });
 
+  console.log(latestClubs);
+
   return (
-    <div className="my-16">
-      <h2 className="text-2xl text-pink-500 font-bold text-center mb-8">
+    <div className="mt-8 overflow-hidden">
+      <h2 className="text-2xl text-pink-500 font-bold text-center">
         Featured Clubs
       </h2>
 
       {latestClubs.length === 0 ? (
         <div className="text-center text-gray-500">No Featured Club found.</div>
       ) : (
-        <Marquee speed={40} pauseOnHover={false}>
+        <Marquee speed={40} className="py-5" pauseOnHover={false}>
           <div className="flex gap-6 px-4">
-            {latestClubs.map((club) => (
+            {latestClubs?.map((club) => (
               <motion.div
                 key={club._id}
-                className="w-72 bg-base-100 rounded-2xl shadow-md overflow-hidden"
+                className="w-72 bg-base-100 rounded-2xl shadow-sm overflow-hidden"
                 whileHover={{
                   scale: 1.04,
-                  boxShadow: "0px 15px 35px rgba(0,0,0,0.25)",
+                  boxShadow: "0px 8px 20px rgba(0,0,0,0.25)",
                 }}
                 transition={{ type: "spring", stiffness: 280 }}
               >

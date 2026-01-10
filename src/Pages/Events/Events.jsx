@@ -31,7 +31,7 @@ const Events = () => {
           No upcoming events found.
         </div>
       ) : (
-        <div className="flex flex-wrap justify-center gap-8">
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
           {events.map((event) => (
             <EventsCard key={event._id} event={event} />
           ))}

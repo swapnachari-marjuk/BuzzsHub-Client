@@ -10,6 +10,12 @@ import {
   FaUserTie,
 } from "react-icons/fa";
 import { MdOutlinePendingActions } from "react-icons/md";
+import UsersStat from "../../../Components/Stats/UsersStat";
+import EventsStat from "../../../Components/Stats/EventsStat";
+import ClubsStat from "../../../Components/Stats/ClubsStat";
+import MembersStat from "../../../Components/Stats/MembersStat";
+import RejectedClubsStat from "../../../Components/Stats/RejectedClubsStat";
+import PendingClubStat from "../../../Components/Stats/PendingClubStat";
 
 const AdminOverview = () => {
   console.log("Admin overview page is loaded");
@@ -43,58 +49,22 @@ const AdminOverview = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Total Users */}
-        <div className="stat bg-white shadow-md rounded-lg border-l-4 border-blue-500">
-          <div className="stat-figure text-blue-500 text-3xl">
-            <FaUsers />
-          </div>
-          <div className="stat-title font-semibold">Total Users</div>
-          <div className="stat-value text-blue-600">{usersCount}</div>
-        </div>
+        <UsersStat usersCount={usersCount} />
 
         {/* Total Events */}
-        <div className="stat bg-white shadow-md rounded-lg border-l-4 border-purple-500">
-          <div className="stat-figure text-purple-500 text-3xl">
-            <FaCalendarAlt />
-          </div>
-          <div className="stat-title font-semibold">Events</div>
-          <div className="stat-value text-purple-600">{eventsCount}</div>
-        </div>
+        <EventsStat eventsCount={eventsCount} />
 
         {/* Total ClubMembers */}
-        <div className="stat bg-white shadow-md rounded-lg border-l-4 border-orange-500">
-          <div className="stat-figure text-orange-500 text-3xl">
-            <FaUserTie />
-          </div>
-          <div className="stat-title font-semibold">Club Members</div>
-          <div className="stat-value text-orange-600">{membersCount}</div>
-        </div>
+        <MembersStat membersCount={membersCount} />
 
         {/* Approved Clubs */}
-        <div className="stat bg-white shadow-md rounded-lg border-l-4 border-green-500">
-          <div className="stat-figure text-green-500 text-3xl">
-            <FaCheckCircle />
-          </div>
-          <div className="stat-title font-semibold">Approved Clubs</div>
-          <div className="stat-value text-green-600">{approvedClubs}</div>
-        </div>
+        <ClubsStat approvedClubs={approvedClubs} />
 
         {/* pending Clubs */}
-        <div className="stat bg-white shadow-md rounded-lg border-l-4 border-green-500">
-          <div className="stat-figure text-green-500 text-3xl">
-            <MdOutlinePendingActions />
-          </div>
-          <div className="stat-title font-semibold">Pending Clubs</div>
-          <div className="stat-value text-green-600">{pendingClubs}</div>
-        </div>
+        <PendingClubStat pendingClubs={pendingClubs} />
 
         {/* Rejected Clubs */}
-        <div className="stat bg-white shadow-md rounded-lg border-l-4 border-red-500">
-          <div className="stat-figure text-red-500 text-3xl">
-            <FaTimesCircle />
-          </div>
-          <div className="stat-title font-semibold">Rejected Clubs</div>
-          <div className="stat-value text-red-600">{rejectedClubs}</div>
-        </div>
+        <RejectedClubsStat rejectedClubs={rejectedClubs} />
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import React from "react";
 import HeroMain from "../../Components/Hero/HeroMain";
 import FeaturedClubs from "../../Components/FeaturedClubs/FeaturedClubs";
 import HowBuzzHubWorks from "../../Components/HowItWork/HowBuzzHubWorks";
+import OverviewStats from "../../Components/PublicOverview/PublicOverview";
 
 const Home = () => {
   return (
@@ -11,6 +12,9 @@ const Home = () => {
       </section>
       <section>
         <FeaturedClubs />
+      </section>
+      <section>
+        <OverviewStats />
       </section>
       <section>
         <HowBuzzHubWorks />

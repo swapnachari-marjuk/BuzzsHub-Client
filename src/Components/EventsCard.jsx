@@ -17,7 +17,7 @@ const EventsCard = ({ event }) => {
       className="p-6 rounded-xl shadow-lg bg-white transition-all duration-300 hover:shadow-xl border border-gray-100"
     >
       <div className="flex justify-between items-start mb-4">
-        <h3 className="text-xl font-extrabold text-pink-500">{title}</h3>
+        <h3 className=" font-extrabold text-pink-500">{title}</h3>
         <span
           className={`px-3 py-1 text-xs font-semibold rounded-full uppercase tracking-wider ${
             isPaid ? "bg-pink-100 text-pink-700" : "bg-green-100 text-green-700"

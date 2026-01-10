@@ -2,11 +2,12 @@ import React from "react";
 
 const HowBuzzHubWorks = () => {
   return (
-    <section className="my-24 px-4">
+    <section className="my-12 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Section Header */}
-        <h2 className="text-3xl md:text-4xl text-pink-500 font-bold text-center mb-12">
-          How Buzz&apos;sHub Works
+        <h2 className="text-2xl text-pink-500 font-bold text-center mb-5">
+          {/* How Buzz&apos;sHub Works */}
+          Common Questions Before Getting Started
         </h2>
 
         {/* FAQ Items */}
