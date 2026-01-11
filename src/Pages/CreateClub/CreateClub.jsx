@@ -124,7 +124,7 @@ const CreateClub = () => {
                   <option value="Technology">Technology</option>
                   <option value="Music">Music</option>
                   <option value="Travel">Travel</option>
-                  <option value="Art & Design">Art & Design</option>
+                  <option value="Art">Art</option>
                   <option value="Education">Education</option>
                   <option value="Fitness">Fitness</option>
                   <option value="Gaming">Gaming</option>

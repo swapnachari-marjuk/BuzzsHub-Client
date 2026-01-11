@@ -6,8 +6,8 @@ const Footer = () => {
     <footer className="footer sm:footer-horizontal bg-primary rounded-2xl text-pink-50 p-10">
       <nav>
         <h6 className="font-bold">Discover</h6>
-        <a className="link link-hover">Communities</a>
-        <a className="link link-hover">Events</a>
+        <Link to={'/allClubs'} className="link link-hover">Clubs</Link>
+        <Link to={'/allEvents'} className="link link-hover">Events</Link>
         <a className="link link-hover">Topics</a>
         <a className="link link-hover">Make Friends</a>
       </nav>
@@ -23,10 +23,10 @@ const Footer = () => {
             Home
           </span>
         </Link>
-        <a className="link link-hover">About us</a>
-        <a className="link link-hover">Contact</a>
-        <a className="link link-hover">Jobs</a>
-        <a className="link link-hover">Press kit</a>
+        <Link to={"/aboutBH"} className="link link-hover">About BH</Link>
+        <Link to={"/contact"} className="link link-hover">Contact</Link>
+        <Link to={"/"} className="link link-hover">Jobs</Link>
+        <Link to={"/"} className="link link-hover">Press kit</Link>
       </nav>
       <nav>
         <h6 className="font-bold">Social</h6>

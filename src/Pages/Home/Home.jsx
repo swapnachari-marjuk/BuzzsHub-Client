@@ -3,6 +3,7 @@ import HeroMain from "../../Components/Hero/HeroMain";
 import FeaturedClubs from "../../Components/FeaturedClubs/FeaturedClubs";
 import HowBuzzHubWorks from "../../Components/HowItWork/HowBuzzHubWorks";
 import OverviewStats from "../../Components/PublicOverview/PublicOverview";
+import CategorySection from "../../Components/CategorySection";
 
 const Home = () => {
   return (
@@ -15,6 +16,9 @@ const Home = () => {
       </section>
       <section>
         <OverviewStats />
+      </section>
+      <section>
+        <CategorySection />
       </section>
       <section>
         <HowBuzzHubWorks />

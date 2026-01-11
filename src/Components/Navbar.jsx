@@ -63,8 +63,8 @@ const Navbar = () => {
   return (
     <div className="navbar drop-shadow-xs max-w-7xl mx-auto">
       <div className="navbar-start">
-        <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+        <div className="dropdown relative z-5">
+          <div tabIndex={0} role="button" className="btn btn-ghost btn-sm md:btn-md lg:hidden hover:bg-pink-200 hover:text-pink-600 transition-colors duration-300">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"

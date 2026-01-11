@@ -4,30 +4,30 @@ import { IoSend } from 'react-icons/io5';
 
 const Contact = () => {
 
-    const [result, setResult] = useState("");
+    // const [result, setResult] = useState("");
 
-    const onSubmit = async (event) => {
-        event.preventDefault();
-        setResult("Sending....");
-        const formData = new FormData(event.target);
+    // const onSubmit = async (event) => {
+    //     event.preventDefault();
+    //     setResult("Sending....");
+    //     const formData = new FormData(event.target);
 
-        formData.append("access_key", "YOUR_ACCESS_KEY_HERE");
+    //     formData.append("access_key", "YOUR_ACCESS_KEY_HERE");
 
-        const response = await fetch("https://api.web3forms.com/submit", {
-            method: "POST",
-            body: formData
-        });
+    //     const response = await fetch("https://api.web3forms.com/submit", {
+    //         method: "POST",
+    //         body: formData
+    //     });
 
-        const data = await response.json();
+    //     const data = await response.json();
 
-        if (data.success) {
-            setResult("Form Submitted Successfully");
-            event.target.reset();
-        } else {
-            console.log("Error", data);
-            setResult(data.message);
-        }
-    };
+    //     if (data.success) {
+    //         setResult("Form Submitted Successfully");
+    //         event.target.reset();
+    //     } else {
+    //         console.log("Error", data);
+    //         setResult(data.message);
+    //     }
+    // };
 
     return (
         <div className="min-h-screen my-10 rounded-2xl shadow-sm bg-white py-16 px-6">
@@ -64,7 +64,9 @@ const Contact = () => {
 
                     {/* Form Side */}
                     <div className="lg:col-span-2 bg-white p-8 md:p-12 rounded-3xl border border-pink-50 shadow-sm">
-                        <form onSubmit={onSubmit} className="space-y-6">
+                        <form
+                            // onSubmit={onSubmit}
+                            className="space-y-6">
                             <div className="grid md:grid-cols-2 gap-6">
                                 <div>
                                     <label className="block text-sm font-bold text-gray-700 mb-2">Full Name</label>
@@ -85,7 +87,7 @@ const Contact = () => {
                                 Send Message <IoSend size={20} />
                             </button>
 
-                            <span>{result}</span>
+                            {/* <span>{result}</span> */}
                         </form>
                     </div>
 
