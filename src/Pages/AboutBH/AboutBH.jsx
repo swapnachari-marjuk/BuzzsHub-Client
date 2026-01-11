@@ -58,7 +58,7 @@ const AboutBH = () => {
 
                 {/* Final Identity Tagline */}
                 <div className="mt-20 text-center">
-                    <div className="inline-block px-8 py-4 bg-pink-500 rounded-full shadow-lg transform hover:scale-105 transition">
+                    <div className="inline-block px-8 py-4 bg-pink-500 rounded-full shadow-lg transform hover:scale-105 duration-200 transition">
                         <p className="text-white font-medium md:text-xl italic">
                             "{aboutData.identity}"
                         </p>

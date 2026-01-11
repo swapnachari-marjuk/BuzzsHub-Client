@@ -28,6 +28,7 @@ import EventRegistration from "../Pages/Dashboard/ManagerPages/EventRegistration
 import UsersClub from "../Pages/Dashboard/UserPages/UsersClub";
 import UsersEvent from "../Pages/Dashboard/UserPages/UsersEvent";
 import AboutBH from "../Pages/AboutBH/AboutBH";
+import Contact from "../Pages/Contact/Contact";
 
 const router = createBrowserRouter([
   {
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: "/aboutBH",
         Component: AboutBH
+      },
+      {
+        path: "/contact",
+        Component: Contact
       },
       {
         path: "/events/:eventsId",

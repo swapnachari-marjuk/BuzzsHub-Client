@@ -47,6 +47,9 @@ const Navbar = () => {
           About BH
         </NavLink>
       </li>
+      <li>
+        <NavLink to={'/contact'} className="nav-link font-bold">Contact</NavLink>
+      </li>
       {userRole?.role === "user" && (
         <li>
           <NavLink to={"/becomeManager"} className="nav-link font-bold">

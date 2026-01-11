@@ -21,7 +21,7 @@ const OverviewStats = () => {
         <div className='pt-12 pb-5'>
             <h3 className='text-2xl font-bold text-pink-500 text-center mb-5'>Buzz’sHub at a Glance</h3>
 
-            <div className='grid grid-cols-3 gap-5'>
+            <div className='grid md:grid-cols-3 gap-5'>
                 <ClubsStat approvedClubs={stats?.totalClubs} />
 
                 {/* Total Events */}

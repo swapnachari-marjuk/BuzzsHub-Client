@@ -43,7 +43,7 @@ const DashLayout = () => {
           <div>
             <Link
               to="/dashboard"
-              className="cursor-pointer group flex justify-center items-center text-pink-600"
+              className="cursor-pointer group flex justify-center items-center text-pink-600 italic"
             >
               <span className="font-bold transition-all duration-300 ease-out group-hover:opacity-0 group-hover:scale-95 group-hover:translate-y-1">
                 Buzz'sHub
@@ -55,7 +55,7 @@ const DashLayout = () => {
           </div>
         </nav>
         {/* Page content here */}
-        <div className="p-4">
+        <div className="p-4 h-[90vh]">
           <Outlet />
         </div>
       </div>
