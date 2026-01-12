@@ -55,7 +55,7 @@ const DashLayout = () => {
           </div>
         </nav>
         {/* Page content here */}
-        <div className="p-4 h-[90vh]">
+        <div className="p-4">
           <Outlet />
         </div>
       </div>
