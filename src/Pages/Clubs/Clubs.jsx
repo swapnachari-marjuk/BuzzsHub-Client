@@ -6,25 +6,35 @@ import useAxios from "../../hooks/useAxios";
 
 const Clubs = () => {
   const axiosInstance = useAxios();
+
+  const [page, setPage] = useState(1);
   const [sort, setSort] = useState("");
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
 
+  const limit = 9; // per page
 
-  const { data: cardsData, isLoading } = useQuery({
-    queryKey: ["clubs", "status", sort, search, category],
+  const { data, isLoading } = useQuery({
+
+    queryKey: ["clubs", "status", sort, search, category, page],
     queryFn: async () => {
+      const skip = (page - 1) * limit;
       const res = await axiosInstance.get(
-        `/clubs?status=approved&sort=${sort}&search=${search}&category=${category}`
+        `/clubs?status=approved&sort=${sort}&search=${search}&category=${category}&purpose=publicShow&limit=${limit}&skip=${skip}`
       );
       return res.data;
     },
-
     placeholderData: (previousData) => previousData,
   });
-  // console.log(cardsData);
 
   console.log({ sort, category });
+
+  const cardsData = data?.publicRes
+  const totalData = data?.countData
+
+  const totalPages = Math.ceil(totalData / limit)
+
+  console.log(data);
 
   if (isLoading) {
     return <ComponentLoading />;
@@ -93,6 +103,28 @@ const Clubs = () => {
           </div>
         </>
       )}
+
+
+      <div className="flex justify-center mt-5 gap-2">
+        <button
+          className="btn btn-sm"
+          disabled={page <= 1}
+          onClick={() => setPage((prev) => prev - 1)}
+        >
+          Previous
+        </button>
+
+        <span className="px-3 py-1 bg-gray-200 rounded">{page}</span>
+
+        <button
+          className="btn btn-sm"
+          disabled={page >= totalPages}
+          onClick={() => setPage((prev) => prev + 1)}
+        >
+          Next
+        </button>
+      </div>
+
     </div>
   );
 };

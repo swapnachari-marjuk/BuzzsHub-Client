@@ -11,17 +11,16 @@ const FeaturedClubs = () => {
   const { data: latestClubs = [] } = useQuery({
     queryKey: ["clubs"],
     queryFn: async () => {
-      const res = await axios.get("/clubs?limit=5&status=approved");
-      return res.data.limitedResult;
+      const res = await axios.get("/clubs?limit=5&status=approved&purpose=latest");
+      return res.data.latestResult;
     },
   });
 
-  console.log(latestClubs);
 
   return (
     <div className="mt-8 overflow-hidden">
       <h2 className="text-2xl text-pink-500 font-bold text-center">
-        Featured Clubs
+        Latest Clubs
       </h2>
 
       {latestClubs.length === 0 ? (

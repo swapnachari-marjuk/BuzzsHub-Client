@@ -12,8 +12,8 @@ import { RiLogoutBoxRLine } from "react-icons/ri";
 const Navbar = () => {
   const { user, logOutUser, loading } = useAuth();
   const { userRole } = useRole();
-  console.log(userRole);
-  console.log(user);
+  // console.log(userRole);
+  // console.log(user);
 
   const handleLogOut = () => {
     Swal.fire({

@@ -25,6 +25,7 @@ const CreateClub = () => {
     try {
       setClubLoading(true);
 
+      const membershipFee = parseInt(data.membershipFee)
       const bannerImage = data.clubBanner?.[0];
       const bannerURL = await uploadImage(
         bannerImage,
@@ -37,7 +38,7 @@ const CreateClub = () => {
         category: data.category,
         location: data.location,
         bannerURL,
-        membershipFee: data.membershipFee,
+        membershipFee,
         managerEmail: data.managerEmail,
         status: "pending",
       };
@@ -65,7 +66,7 @@ const CreateClub = () => {
   }
 
   if (userRole?.role !== "manager") {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/" />;
   }
 
   if (userRole?.role === "manager") {

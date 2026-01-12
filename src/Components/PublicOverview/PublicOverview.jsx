@@ -16,7 +16,7 @@ const OverviewStats = () => {
         }
     })
 
-    console.log(stats);
+    // console.log(stats);
     return (
         <div className='pt-12 pb-5'>
             <h3 className='text-2xl font-bold text-pink-500 text-center mb-5'>Buzz’sHub at a Glance</h3>

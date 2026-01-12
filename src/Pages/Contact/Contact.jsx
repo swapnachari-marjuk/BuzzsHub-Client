@@ -70,17 +70,17 @@ const Contact = () => {
                             <div className="grid md:grid-cols-2 gap-6">
                                 <div>
                                     <label className="block text-sm font-bold text-gray-700 mb-2">Full Name</label>
-                                    <input type="text" placeholder="Your Name" className="w-full px-5 py-4 rounded-2xl bg-gray-50 border border-gray-100 focus:border-pink-300 focus:outline-none focus:bg-white transition-all" />
+                                    <input type="text" required placeholder="Your Name" className="w-full px-5 py-4 rounded-2xl bg-gray-50 border border-gray-100 focus:border-pink-300 focus:outline-none focus:bg-white transition-all" />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
-                                    <input type="email" placeholder="example@mail.com" className="w-full px-5 py-4 rounded-2xl bg-gray-50 border border-gray-100 focus:border-pink-300 focus:outline-none focus:bg-white transition-all" />
+                                    <input type="email" required placeholder="example@mail.com" className="w-full px-5 py-4 rounded-2xl bg-gray-50 border border-gray-100 focus:border-pink-300 focus:outline-none focus:bg-white transition-all" />
                                 </div>
                             </div>
 
                             <div>
                                 <label className="block text-sm font-bold text-gray-700 mb-2">Message</label>
-                                <textarea rows="5" placeholder="Tell us how we can help..." className="w-full px-5 py-4 rounded-2xl bg-gray-50 border border-gray-100 focus:border-pink-300 focus:outline-none focus:bg-white transition-all"></textarea>
+                                <textarea rows="5" required placeholder="Tell us how we can help..." className="w-full px-5 py-4 rounded-2xl bg-gray-50 border border-gray-100 focus:border-pink-300 focus:outline-none focus:bg-white transition-all"></textarea>
                             </div>
 
                             <button className="w-full md:w-auto px-12 py-4 bg-pink-500 hover:bg-pink-600 text-white font-bold rounded-2xl shadow-lg shadow-pink-100 flex items-center justify-center gap-3 transition-all transform hover:-translate-y-1 active:scale-95">
