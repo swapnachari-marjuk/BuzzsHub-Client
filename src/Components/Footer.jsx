@@ -33,7 +33,7 @@ const Footer = () => {
         <div className="grid grid-flow-col gap-4">
           <a
             target="_blank"
-            href="https://www.facebook.com/ahmad.marjuk.869863"
+            href="https://www.facebook.com/ahmad.marjuk.dev"
           >
             <img
               width="24"

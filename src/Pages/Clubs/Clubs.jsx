@@ -11,11 +11,9 @@ const Clubs = () => {
   const [sort, setSort] = useState("");
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
-
   const limit = 9; // per page
 
   const { data, isLoading } = useQuery({
-
     queryKey: ["clubs", "status", sort, search, category, page],
     queryFn: async () => {
       const skip = (page - 1) * limit;
@@ -45,8 +43,8 @@ const Clubs = () => {
         All clubs
       </h3>
 
-
       <div className="flex flex-col md:flex-row gap-4 justify-between px-4 lg:px-0 mb-8">
+        {/* searching input */}
         <form
           className="w-full max-w-sm join">
           <input
@@ -59,6 +57,7 @@ const Clubs = () => {
 
         </form>
 
+        {/* sorting options */}
         <div className="flex gap-2">
           <select
             className="select select-bordered"
@@ -104,7 +103,7 @@ const Clubs = () => {
         </>
       )}
 
-
+      {/* pagination */}
       <div className="flex justify-center mt-5 gap-2">
         <button
           className="btn btn-sm"

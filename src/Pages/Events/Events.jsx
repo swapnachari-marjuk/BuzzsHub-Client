@@ -22,15 +22,11 @@ const Events = () => {
     placeholderData: (prevData) => prevData
   });
 
-
-
-
-  const events = data?.publicRes
+  const events = data?.publicRes || []
   const totalEvents = data?.totalEvents || 0
   const totalPages = Math.ceil(totalEvents / limit)
 
-
-  console.log(totalPages);
+  console.log(data);
 
   console.log(events);
 
@@ -44,13 +40,13 @@ const Events = () => {
         Upcoming Events
       </h2>
 
-      {events.length === 0 ? (
+      {events?.length === 0 ? (
         <div className="text-center text-gray-500">
           No upcoming events found.
         </div>
       ) : (
         <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
-          {events.map((event) => (
+          {events?.map((event) => (
             <EventsCard key={event._id} event={event} />
           ))}
         </div>
