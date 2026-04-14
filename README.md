@@ -7,6 +7,8 @@ The platform helps users discover clubs, join memberships, participate in events
 
 ## 🚀 Live Website
 🔗 **Live Link:** [Buzz'sHub](https://buzzs-hub.web.app/)
+<br/>
+🔗 **Live Link:** [Buzz'sHub Backend Repo](https://github.com/swapnachari-marjuk/BuzzsHub-Server)
 
 ---
 
